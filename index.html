@@ -54,13 +54,18 @@
   --sombra:0 1px 2px rgba(18,55,95,.06), 0 4px 14px rgba(18,55,95,.05);
 }
 
-/* Todo el estilo cuelga de .dav y no de body/html: la pagina se publica tanto
-   como HTML suelto como embebida en un host que pone su propio <body> y su
-   propio reset. Pisar body desde aca hacia que en el host se rompiera el layout. */
+/* El layout y la tipografia cuelgan de .dav, no de body: la pagina se publica
+   tanto como HTML suelto como embebida en un host que pone su propio <body>.
+   Del fondo y el margen si se encarga body, porque si no queda el margen de 8px
+   que los navegadores ponen por defecto y se ve un marco blanco alrededor. */
+html,body{margin:0;padding:0;background:var(--fondo)}
 .dav,.dav *{box-sizing:border-box}
 .dav{-webkit-text-size-adjust:100%;background:var(--fondo);color:var(--tinta);
      font-family:var(--sans);font-size:15px;line-height:1.45;
-     max-width:100%;overflow-x:clip}
+     max-width:100%;overflow-x:clip;
+     /* que llegue hasta abajo aunque el contenido sea corto, para que no asome
+        el fondo del host por debajo */
+     min-height:100vh}
 
 /* ---------- Encabezado ----------
    La cabecera y las pestanas van juntas dentro de .barra-superior, que es la
@@ -397,27 +402,27 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
             <tbody>
               <tr>
                 <th scope="row">GD30D</th>
-                <td class="valor">65,30</td>
-                <td class="valor">6,50%</td>
-                <td class="valor">1,87</td>
+                <td class="valor">58,03</td>
+                <td class="valor">6,11%</td>
+                <td class="valor">2,05</td>
               </tr>
               <tr>
                 <th scope="row">Lecap (S31G6)</th>
-                <td class="valor">124,50</td>
-                <td class="valor">22,79%</td>
-                <td class="valor">0,07</td>
+                <td class="valor">124,63</td>
+                <td class="valor">25,57%</td>
+                <td class="valor">0,08</td>
               </tr>
               <tr>
                 <th scope="row">Cer (X30S6)</th>
-                <td class="valor">112,75</td>
-                <td class="valor">1,04%</td>
+                <td class="valor">112,67</td>
+                <td class="valor">2,20%</td>
                 <td class="valor">0,17</td>
               </tr>
               <tr>
                 <th scope="row">Lecap larga (T30A7)</th>
-                <td class="valor">127,39</td>
-                <td class="valor">26,86%</td>
-                <td class="valor">0,89</td>
+                <td class="valor">131,15</td>
+                <td class="valor">27,56%</td>
+                <td class="valor">0,62</td>
               </tr>
             </tbody>
           </table>
@@ -547,7 +552,7 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
               </tr>
               <tr>
                 <th scope="row">Inflación Acumulada</th>
-                <td class="valor">16,80%</td>
+                <td class="valor">16,85%</td>
               </tr>
               <tr>
                 <th scope="row">Inflación Interanual</th>
@@ -1196,7 +1201,7 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
   <p class="disclaimer" id="disclaimer-on" hidden>“Este documento ha sido distribuido por DA Valores S.A. (en adelante “DA VALORES”) La información del presente se sustenta en condiciones actuales de mercado, según la fecha mencionada en este documento, e incluye datos extraídos de fuentes consideradas confiables. Sin perjuicio de ello, la precisión y confiabilidad de tales datos no ha sido verificada previamente, no existiendo garantías y no aceptando responsabilidad en cuanto a su exactitud e integridad. Asimismo, tal información puede encontrarse sujeta a cambios, reservándose DA VALORES el derecho de actualizar, modificar o eliminar la información en cualquier momento sin necesidad de comunicación previa y sin asumir responsabilidad alguna frente al destinatario del presente. DA VALORES no garantiza que el contenido del presente sea exacto, suficiente o pertinente para el destinatario, no estando obligado a proporcionar información adicional o actualizar la totalidad o parte de su contenido. De este modo, la recepción del presente no constituye una oferta, invitación, recomendación o incentivo para comprar o vender algún valor negociable, inversiones u otro producto. Cualquier pronóstico, proyección y/o valor objetivo son de carácter meramente indicativo y DA VALORES no se hace responsable de que no se cumplan los mismos. Asimismo, el desempeño pasado de los valores negociables aquí mencionados no es necesariamente indicativo de resultados futuros. El destinatario es responsable de realizar su propia evaluación de la información contenida en el presente, así como requerir el asesoramiento comercial, fiscal, jurídico y de cualquier otra clase correspondiente, en caso de considerarlo necesario; no siendo DA VALORES responsable de ninguna pérdida o daño de cualquier tipo, que pudiera surgir a partir del uso de esta publicación. Las personas que accedan a este material deben informarse y observar las restricciones regulatorias  relevantes al momento de operar. DA VALORES no se responsabiliza de las posibles discrepancias que puedan surgir entre la versión electrónica del documento y de la información publicada en sitios sobre los cuales no posee vínculos o la imposibilidad de acceder a los mismos. Este documento debe leerse en su totalidad y no deberá ser fotocopiado, duplicado, redistribuido, comercializado, modificado, adaptado por cualquier medio y en cualquier forma, o cualquier otra actividad que pueda realizarse, en todo o en parte, ni aun citando las fuentes, salvo consentimiento por escrito de DA VALORES. Le recordamos que DA VALORES nunca envía a sus clientes correos electrónicos solicitando información confidencial como: cuentas, claves de acceso, contraseñas. Si usted recibe un correo, un mensaje de texto o un llamado por teléfono que le solicite estos datos, por favor, repórtelo enviando un correo a info@davalores.com.ar o comuníquese con nosotros llamando al +54 11 5252 – 8980. En cumplimiento del art. 27 inc. 3 de la ley 25.326 (protección de datos personales) y del anexo I, art. 27, párrafo tercero del decreto 1558/2001, le informamos que, si deseara no recibir más información publicitaria, tiene el derecho de solicitar el retiro o bloqueo total o parcial de su nombre en nuestras bases de datos llamando al +54 11 5252 – 8980 o enviando un mail a info@davalores.com.ar. Si usted no es cliente, solo deberá enviar un mail a la dirección mencionada. Ley N° 26.831 (Título VII- Cap. II. Art. 12°): DA VALORES S.A. Es una sociedad anónima constituida bajo las leyes de la república argentina. CUIT N° 30-71618100-2, Ortiz de Ocampo 3220 piso 1°, CABA, Argentina. Términos de seguridad y privacidad de la política de uso de hipervínculos © Copyright. DA VALORES S.A. 2024. Todos los derechos reservados. Ninguna parte de esta publicación puede ser reproducida, almacenada en un sistema de recuperación, o transmitida, en cualquier forma o por cualquier medio, electrónico, mecánico, fotocopia, grabación, o de otro modo, sin la autorización previa y por escrito de DA VALORES S.A. DA VALORES S.A. – Agente De Liquidación Y Compensación Y Agente De Negociación Integral (ALYC Y AN I) registrado bajo el N°974 ante la Comisión Nacional De Valores (CNV).”</p>
   <div class="sello">
     <span>DA Valores S.A. — Research</span>
-    <span>Generado el 30/07/2026 15:24</span>
+    <span>Generado el 30/07/2026 15:39</span>
   </div>
 </div>
 
