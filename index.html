@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DA Valores — Dashboard Financiero y de Obligaciones Negociables</title>
+<meta name="description" content="Dashboard financiero y de obligaciones negociables — DA Valores.">
+<!-- noindex mientras probamos: el link se reparte a mano y no queremos que Google
+     lo indexe todavia. Para que aparezca en buscadores, cambiar por "index, follow". -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2312375F'/><text x='16' y='23' font-family='sans-serif' font-size='17' font-weight='700' fill='white' text-anchor='middle'>DA</text></svg>">
+<style>
+:root{
+  --navy:#12375F; --navy-claro:#1D4E82;
+  --banner:#BBD6F2; --enc:#C6E0F9; --zebra:#F2F7FC;
+  --fondo:#FFFFFF; --superficie:#FFFFFF; --panel:#F7FAFD;
+  --tinta:#1A2530; --tinta-2:#48566B; --tinta-3:#7C8A9C;
+  --linea:#E1E8F0; --linea-2:#CBD7E5;
+  --sube:#1B7F4B; --baja:#C0392B; --neutro:#B8860B;
+  --serie:#12375F; --tendencia:#9AA9BB;
+  --sombra:0 1px 2px rgba(18,55,95,.06), 0 4px 14px rgba(18,55,95,.05);
+  --radio:10px;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --navy:#9CC4EC; --navy-claro:#BBD6F2;
+    --banner:#1B3450; --enc:#1B3450; --zebra:#161C24;
+    --fondo:#0E1319; --superficie:#151B22; --panel:#111720;
+    --tinta:#E8EEF5; --tinta-2:#A9B7C7; --tinta-3:#7C8A9C;
+    --linea:#25303C; --linea-2:#33404F;
+    --sube:#4BBF7F; --baja:#F0705F; --neutro:#D9A63C;
+    --serie:#7FB2E5; --tendencia:#55647A;
+    --sombra:none;
+  }
+}
+:root[data-theme="dark"]{
+  --navy:#9CC4EC; --navy-claro:#BBD6F2;
+  --banner:#1B3450; --enc:#1B3450; --zebra:#161C24;
+  --fondo:#0E1319; --superficie:#151B22; --panel:#111720;
+  --tinta:#E8EEF5; --tinta-2:#A9B7C7; --tinta-3:#7C8A9C;
+  --linea:#25303C; --linea-2:#33404F;
+  --sube:#4BBF7F; --baja:#F0705F; --neutro:#D9A63C;
+  --serie:#7FB2E5; --tendencia:#55647A; --sombra:none;
+}
+:root[data-theme="light"]{
+  --navy:#12375F; --navy-claro:#1D4E82;
+  --banner:#BBD6F2; --enc:#C6E0F9; --zebra:#F2F7FC;
+  --fondo:#FFFFFF; --superficie:#FFFFFF; --panel:#F7FAFD;
+  --tinta:#1A2530; --tinta-2:#48566B; --tinta-3:#7C8A9C;
+  --linea:#E1E8F0; --linea-2:#CBD7E5;
+  --sube:#1B7F4B; --baja:#C0392B; --neutro:#B8860B;
+  --serie:#12375F; --tendencia:#9AA9BB;
+  --sombra:0 1px 2px rgba(18,55,95,.06), 0 4px 14px rgba(18,55,95,.05);
+}
+
+/* Todo el estilo cuelga de .dav y no de body/html: la pagina se publica tanto
+   como HTML suelto como embebida en un host que pone su propio <body> y su
+   propio reset. Pisar body desde aca hacia que en el host se rompiera el layout. */
+.dav,.dav *{box-sizing:border-box}
+.dav{-webkit-text-size-adjust:100%;background:var(--fondo);color:var(--tinta);
+     font-family:var(--sans);font-size:15px;line-height:1.45;
+     max-width:100%;overflow-x:clip}
+
+/* ---------- Encabezado ----------
+   La cabecera y las pestanas van juntas dentro de .barra-superior, que es la
+   unica que hace sticky. Asi no hay que hardcodear el alto de la cabecera (en
+   pantalla angosta se parte en dos lineas y cualquier "top" fijo se rompe). */
+.barra-superior{position:sticky;top:0;z-index:30}
+.cabecera{background:var(--navy);color:#fff}
+:root[data-theme="dark"] .cabecera,
+:root:not([data-theme="light"]) .cabecera{color:#fff}
+@media (prefers-color-scheme: dark){.cabecera{background:#0A1826}}
+:root[data-theme="dark"] .cabecera{background:#0A1826}
+:root[data-theme="light"] .cabecera{background:#12375F}
+.cabecera-int{max-width:1500px;margin:0 auto;padding:12px 20px;
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+/* El logo es azul marino sobre transparente, igual que el fondo del encabezado:
+   apoyado directo, el "D.A" desaparece y solo se lee "VALORES" en celeste. Va
+   sobre un chip blanco, que ademas se comporta igual en tema claro y oscuro
+   (un logo de marca sobre fondo oscuro se resuelve asi, no recolorendolo). */
+.logo-chip{background:#fff;border-radius:7px;padding:5px 9px;display:inline-flex;
+  align-items:center;flex:none;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.logo{height:32px;width:auto;display:block}
+.marca{font-size:17px;font-weight:600;letter-spacing:.01em;margin-right:auto;color:#fff}
+.fecha{font-size:13px;color:#CFE0F2;white-space:nowrap}
+.fecha b{color:#fff;font-weight:600}
+.tema{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;
+  border-radius:999px;padding:5px 11px;font-size:12px;cursor:pointer;font-family:inherit}
+.tema:hover{background:rgba(255,255,255,.12)}
+
+/* ---------- Pestanas ---------- */
+.pestanas{background:var(--panel);border-bottom:1px solid var(--linea)}
+.pestanas-int{max-width:1500px;margin:0 auto;padding:0 20px;display:flex;gap:4px;
+  overflow-x:auto}
+.pestana{appearance:none;background:none;border:0;border-bottom:3px solid transparent;
+  padding:13px 16px;font:inherit;font-size:14px;font-weight:600;color:var(--tinta-2);
+  cursor:pointer;white-space:nowrap}
+.pestana:hover{color:var(--tinta)}
+.pestana[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--navy)}
+.corto{display:none}
+
+/* En pantalla angosta las dos pestanas tienen que entrar SIN scroll: es el
+   control principal de la pagina. Se acortan los rotulos y se comprime la
+   cabecera, que si no se come el 20% de la pantalla estando sticky. */
+@media (max-width:560px){
+  .largo{display:none}
+  .corto{display:inline}
+  .cabecera-int{padding:8px 14px;gap:10px}
+  .logo-chip{padding:4px 7px}
+  .logo{height:26px}
+  .marca{font-size:15px}
+  .fecha{font-size:12px}
+  .tema{padding:4px 9px}
+  .pestanas-int{padding:0 14px}
+  .pestana{padding:10px 12px;font-size:13px}
+  .dav main{padding:16px 14px 8px}
+  /* En 375px una tarjeta mide ~320px y tres columnas de valores se comen casi la
+     mitad: sin esto, etiquetas como "Call en pesos Banc. Priv." caen a 3 lineas. */
+  .dav table.datos{font-size:12.5px}
+  .dav table.datos th,.dav table.datos td{padding:6px 4px}
+  .dav table.datos th:first-child,.dav table.datos td:first-child{
+    padding-left:11px;padding-right:8px}
+  .dav table.datos td:last-child,.dav table.datos th:last-child{padding-right:11px}
+  .dav table.datos thead th{font-size:10px}
+  .dav .tarjeta-cab{padding:8px 11px}
+  .dav .destacado{font-size:17px}
+}
+
+.dav main{max-width:1500px;margin:0 auto;padding:22px 20px 8px}
+.dav .panel[hidden]{display:none}
+
+/* ---------- Grilla del dashboard financiero ----------
+   Las tres columnas son las mismas que en el Excel (Tasas | Dólares | Banco
+   Central) y se mantienen a proposito: el cliente ya las lee asi. */
+.rejilla{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+.columna{display:flex;flex-direction:column;gap:18px;min-width:0}
+
+/* A dos columnas, la tercera caia sola a una fila nueva y dejaba media pantalla
+   vacia al lado. Se la hace ocupar el ancho completo y repartir sus tarjetas
+   de dos en dos: no queda hueco y las tarjetas no se estiran. */
+@media (max-width:1180px){
+  .rejilla{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .columna:nth-child(3){grid-column:1 / -1;display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+}
+@media (max-width:720px){
+  .rejilla{grid-template-columns:1fr}
+  .columna:nth-child(3){grid-column:auto;display:flex}
+}
+
+.tarjeta{background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
+  box-shadow:var(--sombra);overflow:hidden}
+.tarjeta-cab{background:var(--navy);color:#fff;padding:9px 14px;display:flex;
+  align-items:baseline;gap:12px}
+@media (prefers-color-scheme: dark){.tarjeta-cab{background:#1B3450}}
+:root[data-theme="dark"] .tarjeta-cab{background:#1B3450}
+:root[data-theme="light"] .tarjeta-cab{background:#12375F}
+.tarjeta-cab h2{margin:0;font-size:13.5px;font-weight:600;letter-spacing:.01em;color:#fff}
+.destacado{margin-left:auto;font-size:19px;font-weight:600;color:#fff;
+  font-variant-numeric:proportional-nums;white-space:nowrap}
+
+/* Las columnas de valores se encogen a lo que miden (width:1px + nowrap las lleva
+   al minimo) y la etiqueta se queda con todo el resto. Antes la etiqueta tenia un
+   46% fijo y se partia en dos o tres lineas mientras la columna del valor
+   desperdiciaba espacio con un "USD $4.216" al medio. */
+.dav table.datos{width:100%;border-collapse:collapse;font-size:13.5px;table-layout:auto}
+.dav table.datos th,.dav table.datos td{padding:7px 6px;text-align:right;
+  white-space:nowrap;width:1px}
+.dav table.datos th:first-child,.dav table.datos td:first-child{text-align:left;
+  white-space:normal;width:auto;color:var(--tinta-2);font-weight:400;
+  padding-left:14px;padding-right:12px;hyphens:auto}
+.dav table.datos td:last-child,.dav table.datos th:last-child{padding-right:14px}
+.dav table.datos thead th{background:var(--enc);color:var(--navy);font-size:11px;
+  font-weight:600;border-bottom:1px solid var(--linea-2);white-space:normal;
+  line-height:1.25}
+@media (prefers-color-scheme: dark){.dav table.datos thead th{color:var(--navy-claro)}}
+.dav table.datos tbody tr:nth-child(even){background:var(--zebra)}
+.dav table.datos td.valor{font-variant-numeric:tabular-nums;color:var(--tinta);
+  font-weight:500}
+/* Filas sueltas de arriba de la tabla (ej. "Var. 1 mes" en Riesgo País): van en su
+   propia tabla para no quedar debajo de un encabezado que no las describe. */
+.dav table.pares{border-bottom:1px solid var(--linea)}
+.dav table.pares td:first-child,.dav table.pares th:first-child{color:var(--tinta);
+  font-weight:500}
+.dav table.pares td{font-weight:600}
+.dav sup.nota{color:var(--tinta-3);font-size:9px;font-weight:400;margin-left:3px}
+
+/* La flecha tiene dos encodings separados: la CLASE de direccion orienta el
+   triangulo (segun el signo del valor) y la CLASE de tono le da el color (segun
+   si eso es bueno o malo). Se separan porque no siempre coinciden: si el riesgo
+   pais sube, la flecha apunta arriba pero va en rojo. */
+.flecha{display:inline-block;width:0;height:0;margin-left:5px;vertical-align:middle;
+  border-left:4px solid transparent;border-right:4px solid transparent}
+.flecha.sube{border-bottom:6px solid currentColor}
+.flecha.baja{border-top:6px solid currentColor}
+.flecha.neutro{width:8px;height:2px;border:0;background:currentColor;margin-bottom:1px}
+.flecha.bueno{color:var(--sube)}
+.flecha.malo{color:var(--baja)}
+.flecha.tneutro{color:var(--neutro)}
+
+/* ---------- Obligaciones negociables ---------- */
+.bloque{background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
+  box-shadow:var(--sombra);overflow:hidden;margin-bottom:20px}
+.bloque-cab{background:var(--navy);color:#fff;padding:10px 16px}
+@media (prefers-color-scheme: dark){.bloque-cab{background:#1B3450}}
+:root[data-theme="dark"] .bloque-cab{background:#1B3450}
+:root[data-theme="light"] .bloque-cab{background:#12375F}
+.bloque-cab h2{margin:0;font-size:14.5px;font-weight:600;color:#fff}
+.bloque-cuerpo{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+  gap:0;align-items:stretch}
+@media (max-width:1100px){.bloque-cuerpo{grid-template-columns:1fr}}
+.tabla-envoltorio{overflow-x:auto;border-right:1px solid var(--linea)}
+@media (max-width:1100px){.tabla-envoltorio{border-right:0;border-bottom:1px solid var(--linea)}}
+table.ons{width:100%;border-collapse:collapse;font-size:13px}
+table.ons th,table.ons td{padding:6px 10px;text-align:right;white-space:nowrap}
+table.ons th:first-child,table.ons td:first-child{text-align:left;white-space:normal}
+table.ons thead th{background:var(--enc);color:var(--navy);font-size:11px;font-weight:600;
+  border-bottom:1px solid var(--linea-2);position:sticky;top:0}
+@media (prefers-color-scheme: dark){table.ons thead th{color:var(--navy-claro)}}
+table.ons tbody tr:nth-child(even){background:var(--zebra)}
+table.ons td{font-variant-numeric:tabular-nums;color:var(--tinta)}
+table.ons td.tk{font-weight:600;font-variant-numeric:normal}
+table.ons td.em{font-variant-numeric:normal;color:var(--tinta-2)}
+.zona-grafico{padding:14px 16px;min-width:0;display:flex;flex-direction:column;gap:6px}
+.grafico-titulo{font-size:12.5px;font-weight:600;color:var(--tinta-2);text-align:center}
+svg.grafico{width:100%;height:auto;display:block;overflow:visible}
+svg.grafico .grilla{stroke:var(--linea);stroke-width:1}
+svg.grafico .eje{stroke:var(--linea-2);stroke-width:1}
+svg.grafico .tick{fill:var(--tinta-3);font-size:10px;font-family:var(--sans);
+  font-variant-numeric:tabular-nums}
+svg.grafico .tick-y{text-anchor:end}
+svg.grafico .tick-x{text-anchor:middle}
+svg.grafico .eje-titulo{fill:var(--tinta-3);font-size:10.5px;font-family:var(--sans);
+  text-anchor:middle}
+svg.grafico .tendencia{fill:none;stroke:var(--tendencia);stroke-width:2;
+  stroke-dasharray:5 4;stroke-linecap:round}
+svg.grafico .punto{fill:var(--serie);stroke:var(--superficie);stroke-width:2}
+svg.grafico .etiqueta{fill:var(--tinta-2);font-size:10px;font-weight:600;
+  font-family:var(--sans);text-anchor:middle;pointer-events:none}
+svg.grafico .hit{fill:transparent;cursor:pointer}
+svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
+.sin-grafico{color:var(--tinta-3);font-size:13px;text-align:center;padding:30px 0}
+
+#tooltip{position:fixed;z-index:80;pointer-events:none;opacity:0;transition:opacity .1s;
+  background:var(--navy);color:#fff;border-radius:7px;padding:7px 10px;font-size:12px;
+  line-height:1.4;box-shadow:0 4px 16px rgba(0,0,0,.22);white-space:nowrap}
+#tooltip b{font-size:13px}
+#tooltip.visible{opacity:1}
+
+/* ---------- Notas y pie ---------- */
+.notas{max-width:1500px;margin:6px auto 0;padding:16px 20px 0;
+  display:grid;grid-template-columns:1fr 1fr;gap:6px 28px}
+@media (max-width:720px){.notas{grid-template-columns:1fr}}
+.notas p{margin:0;font-size:11px;color:var(--tinta-3)}
+.notas sup{font-weight:600;margin-right:3px}
+.pie{max-width:1500px;margin:0 auto;padding:16px 20px 34px}
+.disclaimer{font-size:10.5px;color:var(--tinta-3);text-align:justify;margin:0 0 12px}
+.sello{font-size:11px;color:var(--tinta-3);border-top:1px solid var(--linea);padding-top:12px;
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media print{
+  .barra-superior{position:static}
+  .tema,#tooltip{display:none}
+  .pestana{display:none}
+  .panel[hidden]{display:block !important}
+  body{font-size:11px}
+  .tarjeta,.bloque{break-inside:avoid;box-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<div class="dav">
+<div class="barra-superior">
+<header class="cabecera">
+  <div class="cabecera-int">
+<span class="logo-chip"><img class="logo" src="data:image/png;base64,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" alt="DA Valores"></span>    <span class="marca">Research</span>
+    <span class="fecha" id="fecha-panel"></span>
+    <button class="tema" id="btn-tema" type="button" aria-label="Cambiar tema claro/oscuro">Tema</button>
+  </div>
+</header>
+
+<nav class="pestanas">
+  <div class="pestanas-int" role="tablist" aria-label="Dashboards">
+    <button class="pestana" role="tab" id="tab-fin" aria-controls="panel-fin"
+            aria-selected="true"><span class="largo">Dashboard Financiero</span><span
+            class="corto">Financiero</span></button>
+    <button class="pestana" role="tab" id="tab-on" aria-controls="panel-on"
+            aria-selected="false"><span class="largo">Obligaciones Negociables</span><span
+            class="corto">ONs</span></button>
+  </div>
+</nav>
+</div>
+
+<main>
+  <!-- ============ Dashboard Financiero ============ -->
+  <section class="panel" id="panel-fin" role="tabpanel" aria-labelledby="tab-fin"
+           data-fecha="28/07/2026">
+    <div class="rejilla">
+      <div class="columna">
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Tasas de Interés</h2>
+          </div>
+          <table class="datos">
+            <thead><tr>
+              <th scope="col"></th>
+<th scope="col">28/07/2026</th><th scope="col">Prom.7 días</th><th scope="col">Prom.30 días</th>            </tr></thead>
+            <tbody>
+              <tr>
+                <th scope="row">Call en pesos Banc. Priv. </th>
+                <td class="valor">20,83%</td>
+                <td class="valor">20,68%</td>
+                <td class="valor">21,99%</td>
+              </tr>
+              <tr>
+                <th scope="row">Plazo fijo 30 días Pesos</th>
+                <td class="valor">19,59%</td>
+                <td class="valor">20,31%</td>
+                <td class="valor">19,99%</td>
+              </tr>
+              <tr>
+                <th scope="row">Plazo fijo 30 días Dólar</th>
+                <td class="valor">0,99%</td>
+                <td class="valor">1,21%</td>
+                <td class="valor">1,14%</td>
+              </tr>
+              <tr>
+                <th scope="row">Tamar</th>
+                <td class="valor">22,81%</td>
+                <td class="valor">22,26%</td>
+                <td class="valor">22,10%</td>
+              </tr>
+              <tr>
+                <th scope="row">Tasa caución en ARS<sup class="nota">6</sup></th>
+                <td class="valor">15,75%</td>
+                <td class="valor">20,54%</td>
+                <td class="valor">20,66%</td>
+              </tr>
+              <tr>
+                <th scope="row">Tasa caución en USD<sup class="nota">6, 7</sup></th>
+                <td class="valor">0,75%</td>
+                <td class="valor">1,06%</td>
+                <td class="valor">1,35%</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Merval en CCL</h2>
+<span class="destacado">$ 2.044</span>          </div>
+          <table class="datos">
+            <tbody>
+              <tr>
+                <th scope="row">Cambio diario<sup class="nota">9</sup></th>
+                <td class="valor">-0,68%<span class="flecha baja malo" aria-label="en baja, desfavorable" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">Cambio semanal<sup class="nota">9</sup></th>
+                <td class="valor">-2,24%<span class="flecha baja malo" aria-label="en baja, desfavorable" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">Cambio 15 dias<sup class="nota">9</sup></th>
+                <td class="valor">-0,18%<span class="flecha neutro tneutro" aria-label="sin cambios relevantes" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">Cambio 1 mes<sup class="nota">9</sup></th>
+                <td class="valor">-0,62%<span class="flecha baja malo" aria-label="en baja, desfavorable" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">Acumulado del año</th>
+                <td class="valor">1,50%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Riesgo País</h2>
+<span class="destacado">450</span>          </div>
+          <table class="datos pares"><tbody>
+            <tr>
+              <th scope="row">Var. 1 mes</th>
+              <td class="valor">5,63%<span class="flecha sube malo" aria-label="en alza, desfavorable" role="img"></span></td>
+            </tr>
+            <tr>
+              <th scope="row">Var. 1 año</th>
+              <td class="valor">-36,08%<span class="flecha baja bueno" aria-label="en baja, favorable" role="img"></span></td>
+            </tr>
+          </tbody></table>
+          <table class="datos">
+            <thead><tr>
+              <th scope="col"></th>
+<th scope="col">Px</th><th scope="col">Tir</th><th scope="col">Dur</th>            </tr></thead>
+            <tbody>
+              <tr>
+                <th scope="row">GD30D</th>
+                <td class="valor">65,30</td>
+                <td class="valor">6,50%</td>
+                <td class="valor">1,87</td>
+              </tr>
+              <tr>
+                <th scope="row">Lecap (S31G6)</th>
+                <td class="valor">124,50</td>
+                <td class="valor">22,79%</td>
+                <td class="valor">0,07</td>
+              </tr>
+              <tr>
+                <th scope="row">Cer (X30S6)</th>
+                <td class="valor">112,75</td>
+                <td class="valor">1,04%</td>
+                <td class="valor">0,17</td>
+              </tr>
+              <tr>
+                <th scope="row">Lecap larga (T30A7)</th>
+                <td class="valor">127,39</td>
+                <td class="valor">26,86%</td>
+                <td class="valor">0,89</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Actividad</h2>
+          </div>
+          <table class="datos">
+            <tbody>
+              <tr>
+                <th scope="row">EMAE Variación mensual (Mayo)</th>
+                <td class="valor">-0,5%<span class="flecha neutro tneutro" aria-label="sin cambios relevantes" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">PBI 1T 2026 (Var. interanual)<sup class="nota">9</sup></th>
+                <td class="valor">2,3%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">PBI Var. trimestral</th>
+                <td class="valor">0,7%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">Superávit/Déficit comercial de bienes (Abril)<sup class="nota">4</sup></th>
+                <td class="valor">USD $2.194<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Indicadores clima político</h2>
+          </div>
+          <table class="datos">
+            <tbody>
+              <tr>
+                <th scope="row">Índice de Confianza en el Gobierno (Junio)<sup class="nota">1</sup></th>
+                <td class="valor">-6,5%</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+      <div class="columna">
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Dólares Financieros</h2>
+          </div>
+          <table class="datos">
+            <tbody>
+              <tr>
+                <th scope="row">Oficial A3500</th>
+                <td class="valor">$ 1.499,84</td>
+              </tr>
+              <tr>
+                <th scope="row">Dólar mep</th>
+                <td class="valor">$ 1.533,50</td>
+              </tr>
+              <tr>
+                <th scope="row">Dólar CCL</th>
+                <td class="valor">$ 1.593,04</td>
+              </tr>
+              <tr>
+                <th scope="row">Canje</th>
+                <td class="valor">3,88%</td>
+              </tr>
+              <tr>
+                <th scope="row">Brecha Oficial vs Mep</th>
+                <td class="valor">2,24%</td>
+              </tr>
+              <tr>
+                <th scope="row">Dólar Blue</th>
+                <td class="valor">$ 1.570,00</td>
+              </tr>
+              <tr>
+                <th scope="row">Indice Tipo de cambio real multilateral<sup class="nota">5</sup></th>
+                <td class="valor">85,86</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Índices </h2>
+          </div>
+          <table class="datos">
+            <thead><tr>
+              <th scope="col"></th>
+<th scope="col">Var. Diaria</th><th scope="col">Acum. Año</th><th scope="col">Cotización</th>            </tr></thead>
+            <tbody>
+              <tr>
+                <th scope="row">S&amp;P500<sup class="nota">8</sup></th>
+                <td class="valor">0,2%<span class="flecha neutro tneutro" aria-label="sin cambios relevantes" role="img"></span></td>
+                <td class="valor">8,5%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+                <td class="valor">7.429</td>
+              </tr>
+              <tr>
+                <th scope="row">DowJones<sup class="nota">8</sup></th>
+                <td class="valor">1,0%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+                <td class="valor">9,7%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+                <td class="valor">52.747</td>
+              </tr>
+              <tr>
+                <th scope="row">Nasdaq<sup class="nota">8</sup></th>
+                <td class="valor">-1,0%<span class="flecha baja malo" aria-label="en baja, desfavorable" role="img"></span></td>
+                <td class="valor">10,0%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+                <td class="valor">27.763</td>
+              </tr>
+              <tr>
+                <th scope="row">Russel 3000<sup class="nota">8</sup></th>
+                <td class="valor">0,2%<span class="flecha neutro tneutro" aria-label="sin cambios relevantes" role="img"></span></td>
+                <td class="valor">8,9%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+                <td class="valor">4.229</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Inflación</h2>
+          </div>
+          <table class="datos">
+            <tbody>
+              <tr>
+                <th scope="row">Inflación - May26</th>
+                <td class="valor">1,90%</td>
+              </tr>
+              <tr>
+                <th scope="row">Inflación Acumulada</th>
+                <td class="valor">16,80%</td>
+              </tr>
+              <tr>
+                <th scope="row">Inflación Interanual</th>
+                <td class="valor">33,50%</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Resultado fiscal</h2>
+          </div>
+          <table class="datos">
+            <tbody>
+              <tr>
+                <th scope="row">Resultado primario último mes<sup class="nota">3, 9</sup></th>
+                <td class="valor">-$ 696.843<span class="flecha baja malo" aria-label="en baja, desfavorable" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">Resultado financiero último mes<sup class="nota">3. 9</sup></th>
+                <td class="valor">-$ 1.024.891<span class="flecha baja malo" aria-label="en baja, desfavorable" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">S. Fin. Acum. 2026 como % del PBI<sup class="nota">9</sup></th>
+                <td class="valor">0,1%<span class="flecha neutro tneutro" aria-label="sin cambios relevantes" role="img"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Riesgo EEUU</h2>
+          </div>
+          <table class="datos">
+            <thead><tr>
+              <th scope="col"></th>
+<th scope="col">Actual</th><th scope="col">Prom. Mensual</th>            </tr></thead>
+            <tbody>
+              <tr>
+                <th scope="row">Tasa FED<sup class="nota">2</sup></th>
+                <td class="valor">3,50%</td>
+                <td class="valor">3,88%</td>
+              </tr>
+              <tr>
+                <th scope="row">Tasa a 5 años</th>
+                <td class="valor">4,37%</td>
+                <td class="valor">4,30%</td>
+              </tr>
+              <tr>
+                <th scope="row">Tasa a 10 años</th>
+                <td class="valor">4,61%</td>
+                <td class="valor">4,56%</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+      <div class="columna">
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Banco Central</h2>
+          </div>
+          <table class="datos">
+            <tbody>
+              <tr>
+                <th scope="row">Base monetaria<sup class="nota">3</sup></th>
+                <td class="valor">$ 45.813.184</td>
+              </tr>
+              <tr>
+                <th scope="row">Variación YTD<sup class="nota">3</sup></th>
+                <td class="valor">6,65%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">M2 Privado transaccional<sup class="nota">3</sup></th>
+                <td class="valor">$ 63.704.335</td>
+              </tr>
+              <tr>
+                <th scope="row">Variación YTD<sup class="nota">3</sup></th>
+                <td class="valor">-2,5%<span class="flecha baja malo" aria-label="en baja, desfavorable" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">Reservas Brutas<sup class="nota">4</sup></th>
+                <td class="valor">USD $49.187</td>
+              </tr>
+              <tr>
+                <th scope="row">Reservas Netas <sup class="nota">4</sup></th>
+                <td class="valor">USD $10.423</td>
+              </tr>
+              <tr>
+                <th scope="row">Compra de dólares YTD<sup class="nota">4</sup></th>
+                <td class="valor">USD $12.766</td>
+              </tr>
+              <tr>
+                <th scope="row">Depósitos en dólares del sector público<sup class="nota">4</sup></th>
+                <td class="valor">USD $4.216</td>
+              </tr>
+              <tr>
+                <th scope="row">Depósitos en pesos del sector público<sup class="nota">4</sup></th>
+                <td class="valor">$ 12.556.966</td>
+              </tr>
+              <tr>
+                <th scope="row">Depósitos sector privado USD<sup class="nota">4</sup></th>
+                <td class="valor">USD $40.410</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Vencimientos en USD en 2026</h2>
+          </div>
+          <table class="datos">
+            <tbody>
+              <tr>
+                <th scope="row">Vencimientos soberanos<sup class="nota">4</sup></th>
+                <td class="valor">USD $153</td>
+              </tr>
+              <tr>
+                <th scope="row">Vencimientos subsoberanos<sup class="nota">4</sup></th>
+                <td class="valor">USD $1.139</td>
+              </tr>
+              <tr>
+                <th scope="row">Vencimientos corporativos<sup class="nota">4</sup></th>
+                <td class="valor">USD $3.604</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Futuros Dólar</h2>
+          </div>
+          <table class="datos">
+            <thead><tr>
+              <th scope="col"></th>
+<th scope="col">TNA implícita</th><th scope="col">Int. Abierto</th>            </tr></thead>
+            <tbody>
+              <tr>
+                <th scope="row">DLR/JUL26</th>
+                <td class="valor">8,1%</td>
+                <td class="valor">1.383.516</td>
+              </tr>
+              <tr>
+                <th scope="row">DLR/AGO26</th>
+                <td class="valor">18,6%</td>
+                <td class="valor">1.535.255</td>
+              </tr>
+              <tr>
+                <th scope="row">DLR/SEP26</th>
+                <td class="valor">20,0%</td>
+                <td class="valor">478.228</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="tarjeta">
+          <div class="tarjeta-cab">
+            <h2>Commodities</h2>
+          </div>
+          <table class="datos">
+            <thead><tr>
+              <th scope="col"></th>
+<th scope="col">Precio actual</th><th scope="col">Var. % diaria</th><th scope="col">Acum. Año</th>            </tr></thead>
+            <tbody>
+              <tr>
+                <th scope="row">Precio Soja / Tn</th>
+                <td class="valor">USD $1.220</td>
+                <td class="valor">0,60%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+                <td class="valor">18,36%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">Precio oro</th>
+                <td class="valor">USD $4.029</td>
+                <td class="valor">-0,51%<span class="flecha baja malo" aria-label="en baja, desfavorable" role="img"></span></td>
+                <td class="valor">-6,86%<span class="flecha baja malo" aria-label="en baja, desfavorable" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">Precio Oil WTI</th>
+                <td class="valor">USD $79,13</td>
+                <td class="valor">-2,98%<span class="flecha baja malo" aria-label="en baja, desfavorable" role="img"></span></td>
+                <td class="valor">37,81%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+              </tr>
+              <tr>
+                <th scope="row">Precio cobre</th>
+                <td class="valor">USD $6,34</td>
+                <td class="valor">-0,48%<span class="flecha neutro tneutro" aria-label="sin cambios relevantes" role="img"></span></td>
+                <td class="valor">12,54%<span class="flecha sube bueno" aria-label="en alza, favorable" role="img"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+
+    <div class="notas">
+      <div><p><sup>1</sup>Fuente: UTDT - Poliarquía.</p><p><sup>2</sup>En el caso de la FED se muestra el promedio anual</p><p><sup>3</sup>Millones de ARS</p><p><sup>4</sup>Millones. Datos a Abril de 2026.</p><p><sup>5</sup>Valor base: 100 = 17/12/2015</p></div>
+      <div><p><sup>6</sup>Tasa promedio ponderada con 1 día de rezago. Caución a 1, 7 y 30 días. </p><p><sup>7</sup>Tasa nominal mensual</p><p><sup>8</sup>Variación diaria. </p><p><sup>9</sup>Amarillo indica que el valor se encuentra entre el -0,5% y el 0,5%</p><p><sup>10</sup>Elecciones Primarias, abiertas, simultáneas y obligatorias (PASO) suspendidas en el senado.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ Obligaciones Negociables ============ -->
+  <section class="panel" id="panel-on" role="tabpanel" aria-labelledby="tab-on" hidden
+           data-fecha="23/07/2026">
+    <section class="bloque">
+      <div class="bloque-cab"><h2>Obligaciones negociables Hard Dollar — Ley Nueva York</h2></div>
+      <div class="bloque-cuerpo">
+        <div class="tabla-envoltorio">
+          <table class="ons">
+            <thead><tr>
+              <th scope="col">Emisor</th><th scope="col">Ticker</th>
+              <th scope="col">Emisión</th><th scope="col">Vencimiento</th>
+<th scope="col">Legisl.</th>              <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+              <th scope="col">TIR</th><th scope="col">TNA</th><th scope="col">Mod Dur.</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td class="em">Pan American Energy</td>
+                <td class="tk">PNDCO</td>
+                <td>30/04/2021</td>
+                <td>30/04/2027</td>
+<td class="em">NY</td>                <td>274</td>
+                <td>103,05</td>
+                <td>3,1%</td>
+                <td>3,1%</td>
+                <td>0,50</td>
+              </tr>
+              <tr>
+                <td class="em">YPF</td>
+                <td class="tk">YMCIO</td>
+                <td>12/02/2021</td>
+                <td>30/06/2029</td>
+<td class="em">NY</td>                <td>1.066</td>
+                <td>104,28</td>
+                <td>6,3%</td>
+                <td>6,2%</td>
+                <td>1,54</td>
+              </tr>
+              <tr>
+                <td class="em">B. Macro</td>
+                <td class="tk">BACGO</td>
+                <td>23/06/2025</td>
+                <td>23/06/2029</td>
+<td class="em">NY</td>                <td>1.059</td>
+                <td>103,16</td>
+                <td>6,9%</td>
+                <td>6,8%</td>
+                <td>2,57</td>
+              </tr>
+              <tr>
+                <td class="em">Edenor</td>
+                <td class="tk">DNC7O</td>
+                <td>24/10/2024</td>
+                <td>24/10/2030</td>
+<td class="em">NY</td>                <td>1.547</td>
+                <td>104,06</td>
+                <td>8,4%</td>
+                <td>8,3%</td>
+                <td>2,69</td>
+              </tr>
+              <tr>
+                <td class="em">YPF</td>
+                <td class="tk">YM39O</td>
+                <td>22/07/2025</td>
+                <td>22/07/2030</td>
+<td class="em">NY</td>                <td>1.453</td>
+                <td>110,95</td>
+                <td>5,7%</td>
+                <td>5,6%</td>
+                <td>3,39</td>
+              </tr>
+              <tr>
+                <td class="em">Pluspetrol</td>
+                <td class="tk">PLC5O</td>
+                <td>18/11/2025</td>
+                <td>18/05/2031</td>
+<td class="em">NY</td>                <td>1.753</td>
+                <td>103,71</td>
+                <td>7,3%</td>
+                <td>7,2%</td>
+                <td>3,91</td>
+              </tr>
+              <tr>
+                <td class="em">Edenor</td>
+                <td class="tk">DNCAO</td>
+                <td>28/04/2026</td>
+                <td>28/04/2033</td>
+<td class="em">NY</td>                <td>2.464</td>
+                <td>100,13</td>
+                <td>9,7%</td>
+                <td>9,5%</td>
+                <td>4,26</td>
+              </tr>
+              <tr>
+                <td class="em">YPF</td>
+                <td class="tk">YMCJO</td>
+                <td>12/02/2021</td>
+                <td>30/09/2033</td>
+<td class="em">NY</td>                <td>2.619</td>
+                <td>102,08</td>
+                <td>6,6%</td>
+                <td>6,5%</td>
+                <td>4,53</td>
+              </tr>
+              <tr>
+                <td class="em">YPF</td>
+                <td class="tk">YM34O</td>
+                <td>17/01/2025</td>
+                <td>17/01/2034</td>
+<td class="em">NY</td>                <td>2.728</td>
+                <td>106,49</td>
+                <td>7,1%</td>
+                <td>7,0%</td>
+                <td>5,07</td>
+              </tr>
+              <tr>
+                <td class="em">IRSA</td>
+                <td class="tk">IRCPO</td>
+                <td>31/03/2025</td>
+                <td>31/03/2035</td>
+<td class="em">NY</td>                <td>3.166</td>
+                <td>103,87</td>
+                <td>7,5%</td>
+                <td>7,3%</td>
+                <td>5,58</td>
+              </tr>
+              <tr>
+                <td class="em">Telecom Argentina</td>
+                <td class="tk">TLCTO</td>
+                <td>20/01/2026</td>
+                <td>20/01/2036</td>
+<td class="em">NY</td>                <td>3.461</td>
+                <td>104,76</td>
+                <td>7,9%</td>
+                <td>7,7%</td>
+                <td>6,28</td>
+              </tr>
+              <tr>
+                <td class="em">Transportadora de Gas del Sur</td>
+                <td class="tk">TSC4O</td>
+                <td>20/11/2025</td>
+                <td>20/11/2035</td>
+<td class="em">NY</td>                <td>3.400</td>
+                <td>103,02</td>
+                <td>7,4%</td>
+                <td>7,3%</td>
+                <td>6,53</td>
+              </tr>
+              <tr>
+                <td class="em">Vista Energy Argentina</td>
+                <td class="tk">VSCXO</td>
+                <td>08/04/2026</td>
+                <td>08/04/2038</td>
+<td class="em">NY</td>                <td>4.270</td>
+                <td>103,23</td>
+                <td>7,6%</td>
+                <td>7,4%</td>
+                <td>7,06</td>
+              </tr>
+              <tr>
+                <td class="em">Pampa Energia</td>
+                <td class="tk">MGCRO</td>
+                <td>14/11/2025</td>
+                <td>14/11/2037</td>
+<td class="em">NY</td>                <td>4.125</td>
+                <td>101,99</td>
+                <td>7,6%</td>
+                <td>7,5%</td>
+                <td>7,39</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="zona-grafico">
+          <div class="grafico-titulo">ONs Hard Dollar — Ley Nueva York — TIR vs Mod Duration</div>
+          <svg class="grafico" viewBox="0 0 620 360" role="img" preserveAspectRatio="xMidYMid meet" aria-label="TIR contra Mod Duration — ONs Hard Dollar — Ley Nueva York"><g transform="translate(54,14)"><line class="grilla" x1="0" y1="306.0" x2="540" y2="306.0"/><text class="tick tick-y" x="-8" y="309.5">2,0%</text><line class="grilla" x1="0" y1="229.5" x2="540" y2="229.5"/><text class="tick tick-y" x="-8" y="233.0">4,0%</text><line class="grilla" x1="0" y1="153.0" x2="540" y2="153.0"/><text class="tick tick-y" x="-8" y="156.5">6,0%</text><line class="grilla" x1="0" y1="76.5" x2="540" y2="76.5"/><text class="tick tick-y" x="-8" y="80.0">8,0%</text><line class="grilla" x1="0" y1="0.0" x2="540" y2="0.0"/><text class="tick tick-y" x="-8" y="3.5">10,0%</text><text class="tick tick-x" x="0.0" y="326">0,0</text><text class="tick tick-x" x="135.0" y="326">2,0</text><text class="tick tick-x" x="270.0" y="326">4,0</text><text class="tick tick-x" x="405.0" y="326">6,0</text><text class="tick tick-x" x="540.0" y="326">8,0</text><line class="eje" x1="0" y1="306" x2="540" y2="306"/><text class="eje-titulo" x="270.0" y="342">Mod Duration (años)</text><path class="tendencia" d="M33.9,224.1 L45.9,207.0 L57.8,194.0 L69.7,183.4 L81.7,174.4 L93.6,166.7 L105.5,160.0 L117.4,153.9 L129.4,148.4 L141.3,143.4 L153.2,138.9 L165.1,134.6 L177.1,130.7 L189.0,127.0 L200.9,123.5 L212.9,120.3 L224.8,117.2 L236.7,114.3 L248.6,111.5 L260.6,108.9 L272.5,106.3 L284.4,103.9 L296.4,101.6 L308.3,99.4 L320.2,97.2 L332.1,95.1 L344.1,93.1 L356.0,91.2 L367.9,89.4 L379.8,87.6 L391.8,85.8 L403.7,84.1 L415.6,82.5 L427.6,80.9 L439.5,79.3 L451.4,77.8 L463.3,76.3 L475.3,74.9 L487.2,73.5 L499.1,72.1"/><circle class="hit" cx="33.9" cy="263.3" r="12" data-ticker="PNDCO" data-tir="3,12%" data-dur="0,50"><title>PNDCO — TIR 3,12%, Duration 0,50</title></circle><circle class="punto" cx="33.9" cy="263.3" r="5"/><circle class="hit" cx="103.9" cy="140.9" r="12" data-ticker="YMCIO" data-tir="6,32%" data-dur="1,54"><title>YMCIO — TIR 6,32%, Duration 1,54</title></circle><circle class="punto" cx="103.9" cy="140.9" r="5"/><circle class="hit" cx="173.2" cy="119.5" r="12" data-ticker="BACGO" data-tir="6,87%" data-dur="2,57"><title>BACGO — TIR 6,87%, Duration 2,57</title></circle><circle class="punto" cx="173.2" cy="119.5" r="5"/><circle class="hit" cx="181.3" cy="59.8" r="12" data-ticker="DNC7O" data-tir="8,44%" data-dur="2,69"><title>DNC7O — TIR 8,44%, Duration 2,69</title></circle><circle class="punto" cx="181.3" cy="59.8" r="5"/><circle class="hit" cx="229.0" cy="163.4" r="12" data-ticker="YM39O" data-tir="5,73%" data-dur="3,39"><title>YM39O — TIR 5,73%, Duration 3,39</title></circle><circle class="punto" cx="229.0" cy="163.4" r="5"/><circle class="hit" cx="263.7" cy="102.7" r="12" data-ticker="PLC5O" data-tir="7,32%" data-dur="3,91"><title>PLC5O — TIR 7,32%, Duration 3,91</title></circle><circle class="punto" cx="263.7" cy="102.7" r="5"/><circle class="hit" cx="287.3" cy="12.4" r="12" data-ticker="DNCAO" data-tir="9,68%" data-dur="4,26"><title>DNCAO — TIR 9,68%, Duration 4,26</title></circle><circle class="punto" cx="287.3" cy="12.4" r="5"/><circle class="hit" cx="305.7" cy="128.2" r="12" data-ticker="YMCJO" data-tir="6,65%" data-dur="4,53"><title>YMCJO — TIR 6,65%, Duration 4,53</title></circle><circle class="punto" cx="305.7" cy="128.2" r="5"/><circle class="hit" cx="342.2" cy="110.6" r="12" data-ticker="YM34O" data-tir="7,11%" data-dur="5,07"><title>YM34O — TIR 7,11%, Duration 5,07</title></circle><circle class="punto" cx="342.2" cy="110.6" r="5"/><circle class="hit" cx="376.9" cy="97.4" r="12" data-ticker="IRCPO" data-tir="7,45%" data-dur="5,58"><title>IRCPO — TIR 7,45%, Duration 5,58</title></circle><circle class="punto" cx="376.9" cy="97.4" r="5"/><circle class="hit" cx="424.1" cy="80.6" r="12" data-ticker="TLCTO" data-tir="7,89%" data-dur="6,28"><title>TLCTO — TIR 7,89%, Duration 6,28</title></circle><circle class="punto" cx="424.1" cy="80.6" r="5"/><circle class="hit" cx="440.9" cy="98.7" r="12" data-ticker="TSC4O" data-tir="7,42%" data-dur="6,53"><title>TSC4O — TIR 7,42%, Duration 6,53</title></circle><circle class="punto" cx="440.9" cy="98.7" r="5"/><circle class="hit" cx="476.8" cy="93.4" r="12" data-ticker="VSCXO" data-tir="7,56%" data-dur="7,06"><title>VSCXO — TIR 7,56%, Duration 7,06</title></circle><circle class="punto" cx="476.8" cy="93.4" r="5"/><circle class="hit" cx="499.1" cy="91.4" r="12" data-ticker="MGCRO" data-tir="7,61%" data-dur="7,39"><title>MGCRO — TIR 7,61%, Duration 7,39</title></circle><circle class="punto" cx="499.1" cy="91.4" r="5"/><text class="etiqueta" x="33.9" y="252.8">PNDCO</text><text class="etiqueta" x="103.9" y="130.4">YMCIO</text><text class="etiqueta" x="173.2" y="109.0">BACGO</text><text class="etiqueta" x="181.3" y="49.3">DNC7O</text><text class="etiqueta" x="229.0" y="152.9">YM39O</text><text class="etiqueta" x="263.7" y="92.2">PLC5O</text><text class="etiqueta" x="287.3" y="33.9">DNCAO</text><text class="etiqueta" x="305.7" y="117.7">YMCJO</text><text class="etiqueta" x="342.2" y="100.1">YM34O</text><text class="etiqueta" x="376.9" y="86.9">IRCPO</text><text class="etiqueta" x="424.1" y="70.1">TLCTO</text><text class="etiqueta" x="440.9" y="120.2">TSC4O</text><text class="etiqueta" x="476.8" y="82.9">VSCXO</text><text class="etiqueta" x="499.1" y="112.9">MGCRO</text></g></svg>
+        </div>
+      </div>
+    </section>
+    <section class="bloque">
+      <div class="bloque-cab"><h2>Obligaciones negociables Hard Dollar — Ley Local</h2></div>
+      <div class="bloque-cuerpo">
+        <div class="tabla-envoltorio">
+          <table class="ons">
+            <thead><tr>
+              <th scope="col">Emisor</th><th scope="col">Ticker</th>
+              <th scope="col">Emisión</th><th scope="col">Vencimiento</th>
+<th scope="col">Legisl.</th>              <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+              <th scope="col">TIR</th><th scope="col">TNA</th><th scope="col">Mod Dur.</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td class="em">B. Galicia</td>
+                <td class="tk">BYCVO</td>
+                <td>14/08/2025</td>
+                <td>31/08/2026</td>
+<td class="em">Local</td>                <td>32</td>
+                <td>100,76</td>
+                <td>-1,0%</td>
+                <td>-1,0%</td>
+                <td>0,10</td>
+              </tr>
+              <tr>
+                <td class="em">Edenor</td>
+                <td class="tk">DNC3O</td>
+                <td>07/03/2024</td>
+                <td>22/11/2026</td>
+<td class="em">Local</td>                <td>115</td>
+                <td>101,72</td>
+                <td>4,6%</td>
+                <td>4,5%</td>
+                <td>0,33</td>
+              </tr>
+              <tr>
+                <td class="em">YPF</td>
+                <td class="tk">YM35O</td>
+                <td>27/02/2025</td>
+                <td>27/02/2027</td>
+<td class="em">Local</td>                <td>212</td>
+                <td>101,91</td>
+                <td>3,1%</td>
+                <td>3,0%</td>
+                <td>0,58</td>
+              </tr>
+              <tr>
+                <td class="em">YPF</td>
+                <td class="tk">YM37O</td>
+                <td>07/05/2025</td>
+                <td>07/05/2027</td>
+<td class="em">Local</td>                <td>281</td>
+                <td>102,50</td>
+                <td>3,8%</td>
+                <td>3,8%</td>
+                <td>0,75</td>
+              </tr>
+              <tr>
+                <td class="em">YPF</td>
+                <td class="tk">YM38O</td>
+                <td>22/07/2025</td>
+                <td>22/07/2027</td>
+<td class="em">Local</td>                <td>357</td>
+                <td>103,56</td>
+                <td>3,9%</td>
+                <td>3,9%</td>
+                <td>0,96</td>
+              </tr>
+              <tr>
+                <td class="em">MSU Energy</td>
+                <td class="tk">RUCEO</td>
+                <td>09/02/2026</td>
+                <td>30/10/2027</td>
+<td class="em">Local</td>                <td>457</td>
+                <td>100,60</td>
+                <td>7,1%</td>
+                <td>7,0%</td>
+                <td>1,07</td>
+              </tr>
+              <tr>
+                <td class="em">Tecpetrol</td>
+                <td class="tk">TTC8O</td>
+                <td>24/10/2024</td>
+                <td>24/10/2027</td>
+<td class="em">Local</td>                <td>451</td>
+                <td>102,25</td>
+                <td>3,2%</td>
+                <td>3,1%</td>
+                <td>1,20</td>
+              </tr>
+              <tr>
+                <td class="em">Edenor</td>
+                <td class="tk">DNC5O</td>
+                <td>05/08/2024</td>
+                <td>05/08/2028</td>
+<td class="em">Local</td>                <td>737</td>
+                <td>105,00</td>
+                <td>6,9%</td>
+                <td>6,8%</td>
+                <td>1,77</td>
+              </tr>
+              <tr>
+                <td class="em">CNH</td>
+                <td class="tk">CICBO</td>
+                <td>09/02/2026</td>
+                <td>09/02/2029</td>
+<td class="em">Local</td>                <td>925</td>
+                <td>99,51</td>
+                <td>7,9%</td>
+                <td>7,7%</td>
+                <td>2,21</td>
+              </tr>
+              <tr>
+                <td class="em">YPF</td>
+                <td class="tk">YM42O</td>
+                <td>02/12/2025</td>
+                <td>02/03/2029</td>
+<td class="em">Local</td>                <td>946</td>
+                <td>104,85</td>
+                <td>5,1%</td>
+                <td>5,0%</td>
+                <td>2,35</td>
+              </tr>
+              <tr>
+                <td class="em">Pan American Energy</td>
+                <td class="tk">PN35O</td>
+                <td>27/09/2024</td>
+                <td>27/09/2029</td>
+<td class="em">Local</td>                <td>1.155</td>
+                <td>105,72</td>
+                <td>5,1%</td>
+                <td>5,0%</td>
+                <td>2,79</td>
+              </tr>
+              <tr>
+                <td class="em">Vista Energy Argentina</td>
+                <td class="tk">VSCUO</td>
+                <td>07/03/2025</td>
+                <td>07/03/2030</td>
+<td class="em">Local</td>                <td>1.316</td>
+                <td>108,09</td>
+                <td>5,1%</td>
+                <td>5,0%</td>
+                <td>3,10</td>
+              </tr>
+              <tr>
+                <td class="em">Pecom Servicios Energia</td>
+                <td class="tk">MCC3O</td>
+                <td>11/05/2026</td>
+                <td>11/05/2030</td>
+<td class="em">Local</td>                <td>1.381</td>
+                <td>102,23</td>
+                <td>6,9%</td>
+                <td>6,8%</td>
+                <td>3,23</td>
+              </tr>
+              <tr>
+                <td class="em">Vista Energy Argentina</td>
+                <td class="tk">VSCRO</td>
+                <td>10/10/2024</td>
+                <td>10/10/2031</td>
+<td class="em">Local</td>                <td>1.898</td>
+                <td>108,50</td>
+                <td>5,4%</td>
+                <td>5,4%</td>
+                <td>3,54</td>
+              </tr>
+              <tr>
+                <td class="em">Pluspetrol</td>
+                <td class="tk">PLC4O</td>
+                <td>30/05/2025</td>
+                <td>30/05/2032</td>
+<td class="em">Local</td>                <td>2.131</td>
+                <td>110,47</td>
+                <td>6,4%</td>
+                <td>6,3%</td>
+                <td>4,60</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="zona-grafico">
+          <div class="grafico-titulo">ONs Hard Dollar — Ley Local — TIR vs Mod Duration</div>
+          <svg class="grafico" viewBox="0 0 620 360" role="img" preserveAspectRatio="xMidYMid meet" aria-label="TIR contra Mod Duration — ONs Hard Dollar — Ley Local"><g transform="translate(54,14)"><line class="grilla" x1="0" y1="306.0" x2="540" y2="306.0"/><text class="tick tick-y" x="-8" y="309.5">-2,0%</text><line class="grilla" x1="0" y1="244.8" x2="540" y2="244.8"/><text class="tick tick-y" x="-8" y="248.3">0,0%</text><line class="grilla" x1="0" y1="183.6" x2="540" y2="183.6"/><text class="tick tick-y" x="-8" y="187.1">2,0%</text><line class="grilla" x1="0" y1="122.4" x2="540" y2="122.4"/><text class="tick tick-y" x="-8" y="125.9">4,0%</text><line class="grilla" x1="0" y1="61.2" x2="540" y2="61.2"/><text class="tick tick-y" x="-8" y="64.7">6,0%</text><line class="grilla" x1="0" y1="0.0" x2="540" y2="0.0"/><text class="tick tick-y" x="-8" y="3.5">8,0%</text><text class="tick tick-x" x="0.0" y="326">0,0</text><text class="tick tick-x" x="108.0" y="326">1,0</text><text class="tick tick-x" x="216.0" y="326">2,0</text><text class="tick tick-x" x="324.0" y="326">3,0</text><text class="tick tick-x" x="432.0" y="326">4,0</text><text class="tick tick-x" x="540.0" y="326">5,0</text><line class="eje" x1="0" y1="306" x2="540" y2="306"/><text class="eje-titulo" x="270.0" y="342">Mod Duration (años)</text><path class="tendencia" d="M11.3,223.2 L23.8,185.8 L36.2,164.6 L48.7,149.7 L61.1,138.3 L73.6,128.9 L86.0,121.0 L98.5,114.2 L110.9,108.2 L123.4,102.9 L135.8,98.1 L148.3,93.6 L160.7,89.6 L173.2,85.8 L185.6,82.3 L198.1,79.1 L210.5,76.0 L223.0,73.1 L235.4,70.4 L247.9,67.8 L260.3,65.3 L272.8,62.9 L285.2,60.7 L297.7,58.5 L310.1,56.5 L322.6,54.5 L335.0,52.6 L347.5,50.8 L359.9,49.0 L372.4,47.3 L384.8,45.6 L397.3,44.0 L409.7,42.5 L422.2,41.0 L434.6,39.5 L447.1,38.1 L459.5,36.7 L472.0,35.3 L484.4,34.0 L496.9,32.8"/><circle class="hit" cx="11.3" cy="275.8" r="12" data-ticker="BYCVO" data-tir="-1,01%" data-dur="0,10"><title>BYCVO — TIR -1,01%, Duration 0,10</title></circle><circle class="punto" cx="11.3" cy="275.8" r="5"/><circle class="hit" cx="35.6" cy="105.0" r="12" data-ticker="DNC3O" data-tir="4,57%" data-dur="0,33"><title>DNC3O — TIR 4,57%, Duration 0,33</title></circle><circle class="punto" cx="35.6" cy="105.0" r="5"/><circle class="hit" cx="62.5" cy="151.1" r="12" data-ticker="YM35O" data-tir="3,06%" data-dur="0,58"><title>YM35O — TIR 3,06%, Duration 0,58</title></circle><circle class="punto" cx="62.5" cy="151.1" r="5"/><circle class="hit" cx="81.5" cy="128.4" r="12" data-ticker="YM37O" data-tir="3,80%" data-dur="0,75"><title>YM37O — TIR 3,80%, Duration 0,75</title></circle><circle class="punto" cx="81.5" cy="128.4" r="5"/><circle class="hit" cx="103.5" cy="125.7" r="12" data-ticker="YM38O" data-tir="3,89%" data-dur="0,96"><title>YM38O — TIR 3,89%, Duration 0,96</title></circle><circle class="punto" cx="103.5" cy="125.7" r="5"/><circle class="hit" cx="115.6" cy="26.7" r="12" data-ticker="RUCEO" data-tir="7,13%" data-dur="1,07"><title>RUCEO — TIR 7,13%, Duration 1,07</title></circle><circle class="punto" cx="115.6" cy="26.7" r="5"/><circle class="hit" cx="129.6" cy="147.7" r="12" data-ticker="TTC8O" data-tir="3,17%" data-dur="1,20"><title>TTC8O — TIR 3,17%, Duration 1,20</title></circle><circle class="punto" cx="129.6" cy="147.7" r="5"/><circle class="hit" cx="191.2" cy="32.3" r="12" data-ticker="DNC5O" data-tir="6,95%" data-dur="1,77"><title>DNC5O — TIR 6,95%, Duration 1,77</title></circle><circle class="punto" cx="191.2" cy="32.3" r="5"/><circle class="hit" cx="238.3" cy="4.3" r="12" data-ticker="CICBO" data-tir="7,86%" data-dur="2,21"><title>CICBO — TIR 7,86%, Duration 2,21</title></circle><circle class="punto" cx="238.3" cy="4.3" r="5"/><circle class="hit" cx="254.1" cy="90.1" r="12" data-ticker="YM42O" data-tir="5,05%" data-dur="2,35"><title>YM42O — TIR 5,05%, Duration 2,35</title></circle><circle class="punto" cx="254.1" cy="90.1" r="5"/><circle class="hit" cx="300.9" cy="89.0" r="12" data-ticker="PN35O" data-tir="5,09%" data-dur="2,79"><title>PN35O — TIR 5,09%, Duration 2,79</title></circle><circle class="punto" cx="300.9" cy="89.0" r="5"/><circle class="hit" cx="334.3" cy="89.1" r="12" data-ticker="VSCUO" data-tir="5,09%" data-dur="3,10"><title>VSCUO — TIR 5,09%, Duration 3,10</title></circle><circle class="punto" cx="334.3" cy="89.1" r="5"/><circle class="hit" cx="348.8" cy="32.9" r="12" data-ticker="MCC3O" data-tir="6,93%" data-dur="3,23"><title>MCC3O — TIR 6,93%, Duration 3,23</title></circle><circle class="punto" cx="348.8" cy="32.9" r="5"/><circle class="hit" cx="382.5" cy="78.5" r="12" data-ticker="VSCRO" data-tir="5,43%" data-dur="3,54"><title>VSCRO — TIR 5,43%, Duration 3,54</title></circle><circle class="punto" cx="382.5" cy="78.5" r="5"/><circle class="hit" cx="496.9" cy="48.4" r="12" data-ticker="PLC4O" data-tir="6,42%" data-dur="4,60"><title>PLC4O — TIR 6,42%, Duration 4,60</title></circle><circle class="punto" cx="496.9" cy="48.4" r="5"/><text class="etiqueta" x="34.6" y="273.3">BYCVO</text><text class="etiqueta" x="35.6" y="94.5">DNC3O</text><text class="etiqueta" x="62.5" y="172.6">YM35O</text><text class="etiqueta" x="81.5" y="105.9">YM37O</text><text class="etiqueta" x="103.5" y="147.2">YM38O</text><text class="etiqueta" x="115.6" y="16.2">RUCEO</text><text class="etiqueta" x="129.6" y="169.2">TTC8O</text><text class="etiqueta" x="191.2" y="21.8">DNC5O</text><text class="etiqueta" x="238.3" y="25.8">CICBO</text><text class="etiqueta" x="254.1" y="79.6">YM42O</text><text class="etiqueta" x="300.9" y="78.5">PN35O</text><text class="etiqueta" x="334.3" y="78.6">VSCUO</text><text class="etiqueta" x="348.8" y="22.4">MCC3O</text><text class="etiqueta" x="382.5" y="68.0">VSCRO</text><text class="etiqueta" x="496.9" y="37.9">PLC4O</text></g></svg>
+        </div>
+      </div>
+    </section>
+    <section class="bloque">
+      <div class="bloque-cab"><h2>Obligaciones negociables Dollar Linked</h2></div>
+      <div class="bloque-cuerpo">
+        <div class="tabla-envoltorio">
+          <table class="ons">
+            <thead><tr>
+              <th scope="col">Emisor</th><th scope="col">Ticker</th>
+              <th scope="col">Emisión</th><th scope="col">Vencimiento</th>
+              <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+              <th scope="col">TIR</th><th scope="col">TNA</th><th scope="col">Mod Dur.</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td class="em">Vista Energy Argentina</td>
+                <td class="tk">VSCIO</td>
+                <td>06/12/2022</td>
+                <td>06/12/2026</td>
+                <td>129</td>
+                <td>148.000,00</td>
+                <td>3,8%</td>
+                <td>3,7%</td>
+                <td>0,37</td>
+              </tr>
+              <tr>
+                <td class="em">Pampa Energia</td>
+                <td class="tk">MGCEO</td>
+                <td>19/12/2022</td>
+                <td>19/12/2027</td>
+                <td>507</td>
+                <td>156.880,00</td>
+                <td>3,2%</td>
+                <td>3,3%</td>
+                <td>1,37</td>
+              </tr>
+              <tr>
+                <td class="em">Vista Energy Argentina</td>
+                <td class="tk">VSCKO</td>
+                <td>03/03/2023</td>
+                <td>03/03/2028</td>
+                <td>582</td>
+                <td>138.791,84</td>
+                <td>3,2%</td>
+                <td>3,3%</td>
+                <td>1,55</td>
+              </tr>
+              <tr>
+                <td class="em">Vista Energy Argentina</td>
+                <td class="tk">VSCQO</td>
+                <td>08/07/2024</td>
+                <td>08/07/2028</td>
+                <td>709</td>
+                <td>139.814,09</td>
+                <td>3,3%</td>
+                <td>3,4%</td>
+                <td>1,86</td>
+              </tr>
+              <tr>
+                <td class="em">MSU Green Energy</td>
+                <td class="tk">EAC3O</td>
+                <td>20/12/2024</td>
+                <td>20/12/2028</td>
+                <td>874</td>
+                <td>154.544,94</td>
+                <td>7,7%</td>
+                <td>8,0%</td>
+                <td>2,06</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="zona-grafico">
+          <div class="grafico-titulo">ONs Dollar Linked — TIR vs Mod Duration</div>
+          <svg class="grafico" viewBox="0 0 620 360" role="img" preserveAspectRatio="xMidYMid meet" aria-label="TIR contra Mod Duration — ONs Dollar Linked"><g transform="translate(54,14)"><line class="grilla" x1="0" y1="306.0" x2="540" y2="306.0"/><text class="tick tick-y" x="-8" y="309.5">3,0%</text><line class="grilla" x1="0" y1="244.8" x2="540" y2="244.8"/><text class="tick tick-y" x="-8" y="248.3">4,0%</text><line class="grilla" x1="0" y1="183.6" x2="540" y2="183.6"/><text class="tick tick-y" x="-8" y="187.1">5,0%</text><line class="grilla" x1="0" y1="122.4" x2="540" y2="122.4"/><text class="tick tick-y" x="-8" y="125.9">6,0%</text><line class="grilla" x1="0" y1="61.2" x2="540" y2="61.2"/><text class="tick tick-y" x="-8" y="64.7">7,0%</text><line class="grilla" x1="0" y1="0.0" x2="540" y2="0.0"/><text class="tick tick-y" x="-8" y="3.5">8,0%</text><text class="tick tick-x" x="0.0" y="326">0,0</text><text class="tick tick-x" x="108.0" y="326">0,5</text><text class="tick tick-x" x="216.0" y="326">1,0</text><text class="tick tick-x" x="324.0" y="326">1,5</text><text class="tick tick-x" x="432.0" y="326">2,0</text><text class="tick tick-x" x="540.0" y="326">2,5</text><line class="eje" x1="0" y1="306" x2="540" y2="306"/><text class="eje-titulo" x="270.0" y="342">Mod Duration (años)</text><path class="tendencia" d="M79.8,291.5 L89.2,285.9 L98.6,280.8 L108.0,276.1 L117.4,271.9 L126.8,267.9 L136.2,264.3 L145.5,260.9 L154.9,257.7 L164.3,254.7 L173.7,251.8 L183.1,249.2 L192.5,246.6 L201.8,244.2 L211.2,241.9 L220.6,239.6 L230.0,237.5 L239.4,235.5 L248.8,233.5 L258.2,231.6 L267.5,229.8 L276.9,228.0 L286.3,226.3 L295.7,224.7 L305.1,223.1 L314.5,221.5 L323.9,220.0 L333.2,218.6 L342.6,217.2 L352.0,215.8 L361.4,214.4 L370.8,213.1 L380.2,211.8 L389.6,210.6 L398.9,209.4 L408.3,208.2 L417.7,207.0 L427.1,205.9 L436.5,204.8 L445.9,203.7"/><circle class="hit" cx="79.8" cy="258.9" r="12" data-ticker="VSCIO" data-tir="3,77%" data-dur="0,37"><title>VSCIO — TIR 3,77%, Duration 0,37</title></circle><circle class="punto" cx="79.8" cy="258.9" r="5"/><circle class="hit" cx="295.8" cy="291.0" r="12" data-ticker="MGCEO" data-tir="3,25%" data-dur="1,37"><title>MGCEO — TIR 3,25%, Duration 1,37</title></circle><circle class="punto" cx="295.8" cy="291.0" r="5"/><circle class="hit" cx="335.4" cy="290.7" r="12" data-ticker="VSCKO" data-tir="3,25%" data-dur="1,55"><title>VSCKO — TIR 3,25%, Duration 1,55</title></circle><circle class="punto" cx="335.4" cy="290.7" r="5"/><circle class="hit" cx="401.0" cy="287.2" r="12" data-ticker="VSCQO" data-tir="3,31%" data-dur="1,86"><title>VSCQO — TIR 3,31%, Duration 1,86</title></circle><circle class="punto" cx="401.0" cy="287.2" r="5"/><circle class="hit" cx="445.9" cy="19.5" r="12" data-ticker="EAC3O" data-tir="7,68%" data-dur="2,06"><title>EAC3O — TIR 7,68%, Duration 2,06</title></circle><circle class="punto" cx="445.9" cy="19.5" r="5"/><text class="etiqueta" x="79.8" y="248.4">VSCIO</text><text class="etiqueta" x="295.8" y="280.5">MGCEO</text><text class="etiqueta" x="335.4" y="280.2">VSCKO</text><text class="etiqueta" x="401.0" y="276.7">VSCQO</text><text class="etiqueta" x="445.9" y="41.0">EAC3O</text></g></svg>
+        </div>
+      </div>
+    </section>
+  </section>
+</main>
+
+<div class="pie">
+  <p class="disclaimer" id="disclaimer-fin">La información del presente se sustenta en condiciones actuales de mercado, según la fecha mencionada. Asimismo, tal información puede encontrarse sujeta a cambios, reservándose DA VALORES el derecho de actualizar, modificar o eliminar la información en cualquier momento sin necesidad de comunicación previa y sin asumir responsabilidad alguna frente al destinatario del presente.</p>
+  <p class="disclaimer" id="disclaimer-on" hidden>“Este documento ha sido distribuido por DA Valores S.A. (en adelante “DA VALORES”) La información del presente se sustenta en condiciones actuales de mercado, según la fecha mencionada en este documento, e incluye datos extraídos de fuentes consideradas confiables. Sin perjuicio de ello, la precisión y confiabilidad de tales datos no ha sido verificada previamente, no existiendo garantías y no aceptando responsabilidad en cuanto a su exactitud e integridad. Asimismo, tal información puede encontrarse sujeta a cambios, reservándose DA VALORES el derecho de actualizar, modificar o eliminar la información en cualquier momento sin necesidad de comunicación previa y sin asumir responsabilidad alguna frente al destinatario del presente. DA VALORES no garantiza que el contenido del presente sea exacto, suficiente o pertinente para el destinatario, no estando obligado a proporcionar información adicional o actualizar la totalidad o parte de su contenido. De este modo, la recepción del presente no constituye una oferta, invitación, recomendación o incentivo para comprar o vender algún valor negociable, inversiones u otro producto. Cualquier pronóstico, proyección y/o valor objetivo son de carácter meramente indicativo y DA VALORES no se hace responsable de que no se cumplan los mismos. Asimismo, el desempeño pasado de los valores negociables aquí mencionados no es necesariamente indicativo de resultados futuros. El destinatario es responsable de realizar su propia evaluación de la información contenida en el presente, así como requerir el asesoramiento comercial, fiscal, jurídico y de cualquier otra clase correspondiente, en caso de considerarlo necesario; no siendo DA VALORES responsable de ninguna pérdida o daño de cualquier tipo, que pudiera surgir a partir del uso de esta publicación. Las personas que accedan a este material deben informarse y observar las restricciones regulatorias  relevantes al momento de operar. DA VALORES no se responsabiliza de las posibles discrepancias que puedan surgir entre la versión electrónica del documento y de la información publicada en sitios sobre los cuales no posee vínculos o la imposibilidad de acceder a los mismos. Este documento debe leerse en su totalidad y no deberá ser fotocopiado, duplicado, redistribuido, comercializado, modificado, adaptado por cualquier medio y en cualquier forma, o cualquier otra actividad que pueda realizarse, en todo o en parte, ni aun citando las fuentes, salvo consentimiento por escrito de DA VALORES. Le recordamos que DA VALORES nunca envía a sus clientes correos electrónicos solicitando información confidencial como: cuentas, claves de acceso, contraseñas. Si usted recibe un correo, un mensaje de texto o un llamado por teléfono que le solicite estos datos, por favor, repórtelo enviando un correo a info@davalores.com.ar o comuníquese con nosotros llamando al +54 11 5252 – 8980. En cumplimiento del art. 27 inc. 3 de la ley 25.326 (protección de datos personales) y del anexo I, art. 27, párrafo tercero del decreto 1558/2001, le informamos que, si deseara no recibir más información publicitaria, tiene el derecho de solicitar el retiro o bloqueo total o parcial de su nombre en nuestras bases de datos llamando al +54 11 5252 – 8980 o enviando un mail a info@davalores.com.ar. Si usted no es cliente, solo deberá enviar un mail a la dirección mencionada. Ley N° 26.831 (Título VII- Cap. II. Art. 12°): DA VALORES S.A. Es una sociedad anónima constituida bajo las leyes de la república argentina. CUIT N° 30-71618100-2, Ortiz de Ocampo 3220 piso 1°, CABA, Argentina. Términos de seguridad y privacidad de la política de uso de hipervínculos © Copyright. DA VALORES S.A. 2024. Todos los derechos reservados. Ninguna parte de esta publicación puede ser reproducida, almacenada en un sistema de recuperación, o transmitida, en cualquier forma o por cualquier medio, electrónico, mecánico, fotocopia, grabación, o de otro modo, sin la autorización previa y por escrito de DA VALORES S.A. DA VALORES S.A. – Agente De Liquidación Y Compensación Y Agente De Negociación Integral (ALYC Y AN I) registrado bajo el N°974 ante la Comisión Nacional De Valores (CNV).”</p>
+  <div class="sello">
+    <span>DA Valores S.A. — Research</span>
+    <span>Generado el 30/07/2026 15:24</span>
+  </div>
+</div>
+
+<div id="tooltip" role="status" aria-live="polite"></div>
+</div><!-- /.dav -->
+
+<script>
+(function(){
+  // ---- Tema ----
+  var raiz = document.documentElement;
+  try{ var g = localStorage.getItem("dav-tema"); if(g) raiz.setAttribute("data-theme", g); }catch(e){}
+  document.getElementById("btn-tema").addEventListener("click", function(){
+    var oscuro = raiz.getAttribute("data-theme") === "dark"
+      || (!raiz.getAttribute("data-theme")
+          && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    var nuevo = oscuro ? "light" : "dark";
+    raiz.setAttribute("data-theme", nuevo);
+    try{ localStorage.setItem("dav-tema", nuevo); }catch(e){}
+  });
+
+  // ---- Pestanas ----
+  var tabs = [
+    {b: document.getElementById("tab-fin"), p: document.getElementById("panel-fin"),
+     d: document.getElementById("disclaimer-fin")},
+    {b: document.getElementById("tab-on"), p: document.getElementById("panel-on"),
+     d: document.getElementById("disclaimer-on")}
+  ];
+  var etiquetaFecha = document.getElementById("fecha-panel");
+  function activar(i, empujar){
+    tabs.forEach(function(t, j){
+      var on = i === j;
+      t.b.setAttribute("aria-selected", on ? "true" : "false");
+      t.p.hidden = !on;
+      t.d.hidden = !on;
+    });
+    etiquetaFecha.innerHTML = "Datos al <b>" + (tabs[i].p.dataset.fecha || "") + "</b>";
+    if(empujar){
+      history.replaceState(null, "", i === 1 ? "#on" : "#financiero");
+    }
+  }
+  tabs.forEach(function(t, i){
+    t.b.addEventListener("click", function(){ activar(i, true); });
+  });
+  activar(location.hash === "#on" ? 1 : 0, false);
+
+  // ---- Tooltip de los graficos ----
+  var tt = document.getElementById("tooltip");
+  function mostrar(el, x, y){
+    tt.innerHTML = "<b>" + el.dataset.ticker + "</b><br>TIR " + el.dataset.tir
+                 + "<br>Mod Duration " + el.dataset.dur;
+    tt.classList.add("visible");
+    var r = tt.getBoundingClientRect();
+    var izq = Math.min(Math.max(8, x - r.width / 2), window.innerWidth - r.width - 8);
+    var arr = y - r.height - 14;
+    if(arr < 8){ arr = y + 18; }
+    tt.style.left = izq + "px";
+    tt.style.top = arr + "px";
+  }
+  function ocultar(){ tt.classList.remove("visible"); }
+  document.addEventListener("mouseover", function(e){
+    var h = e.target.closest ? e.target.closest("svg.grafico .hit") : null;
+    if(!h) return;
+    var b = h.getBoundingClientRect();
+    mostrar(h, b.left + b.width / 2, b.top);
+  });
+  document.addEventListener("mouseout", function(e){
+    if(e.target.closest && e.target.closest("svg.grafico .hit")) ocultar();
+  });
+  document.addEventListener("click", function(e){
+    var h = e.target.closest ? e.target.closest("svg.grafico .hit") : null;
+    if(!h){ ocultar(); return; }
+    var b = h.getBoundingClientRect();
+    mostrar(h, b.left + b.width / 2, b.top);
+  });
+  window.addEventListener("scroll", ocultar, {passive:true});
+})();
+</script>
+</body>
+</html>

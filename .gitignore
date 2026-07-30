@@ -1,0 +1,5 @@
+.DS_Store
+Thumbs.db
+# Variante sin <html>/<head>/<body>, solo para hostings que envuelven el
+# contenido. En GitHub Pages no hace falta: se publica index.html.
+fragmento.html
