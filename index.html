@@ -237,10 +237,12 @@ table.ons td.em{font-variant-numeric:normal;color:var(--tinta-2)}
 table.ons.compacta th,table.ons.compacta td{padding:5px 9px}
 .zona-grafico-multi{gap:14px}
 .zona-grafico-multi>div+div{border-top:1px solid var(--linea);padding-top:14px}
-/* El grafico de "Bonos Hard Dollar" no tiene tabla propia (los datos ya estan
-   en las 2 tablas de USD arriba): centrado, con un ancho maximo para que no
-   se vea perdido en una fila entera de 1500px. */
-.zona-grafico-sola{padding:14px 16px;max-width:520px;margin:0 auto}
+/* "Bonos en USD": dos tablas (Ley Local / Ley Internacional) apiladas en la
+   misma columna izquierda, comparten un solo grafico "Bonos Hard Dollar" a
+   la derecha (ese grafico combina las dos, no tiene tabla propia). */
+.tabla-envoltorio-apilada{display:flex;flex-direction:column}
+.tabla-envoltorio-apilada>.subtitulo-tabla:not(:first-child){border-top:1px solid var(--linea)}
+.subtitulo-tabla{padding:8px 10px 0;font-size:11.5px;font-weight:600;color:var(--tinta-2)}
 .grafico-titulo{font-size:12.5px;font-weight:600;color:var(--tinta-2);text-align:center}
 svg.grafico{width:100%;height:auto;display:block;overflow:visible}
 svg.grafico .grilla{stroke:var(--linea);stroke-width:1}
@@ -1223,31 +1225,32 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
       <div class="bloque-cab"><h2>Bonos del Tesoro Nacional — Tasa Fija</h2></div>
       <div class="">
         <div class="tabla-envoltorio-full">
-          <table class="ons compacta">
-            <thead><tr>
-              <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
-              <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
-              <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td class="tk">TO26</td>
-                <td>17/10/2026</td>
-                <td>78</td>
-                <td>101,80</td>
-                <td>30,9%</td>
-                <td>0,16</td>
-              </tr>
-              <tr>
-                <td class="tk">TY30P</td>
-                <td>30/05/2030</td>
-                <td>1399</td>
-                <td>112,05</td>
-                <td>28,2%</td>
-                <td>1,93</td>
-              </tr>
-            </tbody>
-          </table>
+              <table class="ons compacta">
+      <thead><tr>
+        <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+        <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+        <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="tk">TO26</td>
+          <td>17/10/2026</td>
+          <td>78</td>
+          <td>101,80</td>
+          <td>30,9%</td>
+          <td>0,16</td>
+        </tr>
+        <tr>
+          <td class="tk">TY30P</td>
+          <td>30/05/2030</td>
+          <td>1399</td>
+          <td>112,05</td>
+          <td>28,2%</td>
+          <td>1,93</td>
+        </tr>
+      </tbody>
+    </table>
+
         </div>
       </div>
     </section>
@@ -1255,103 +1258,104 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
       <div class="bloque-cab"><h2>Lecaps y Boncaps</h2></div>
       <div class="bloque-cuerpo">
         <div class="tabla-envoltorio">
-          <table class="ons compacta">
-            <thead><tr>
-              <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
-              <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
-              <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td class="tk">S14G6</td>
-                <td>14/08/2026</td>
-                <td>14</td>
-                <td>107,27</td>
-                <td>26,4%</td>
-                <td>0,02</td>
-              </tr>
-              <tr>
-                <td class="tk">S31G6</td>
-                <td>31/08/2026</td>
-                <td>31</td>
-                <td>124,91</td>
-                <td>24,9%</td>
-                <td>0,05</td>
-              </tr>
-              <tr>
-                <td class="tk">S15S6</td>
-                <td>15/09/2026</td>
-                <td>46</td>
-                <td>104,50</td>
-                <td>24,3%</td>
-                <td>0,08</td>
-              </tr>
-              <tr>
-                <td class="tk">S30S6</td>
-                <td>30/09/2026</td>
-                <td>61</td>
-                <td>113,10</td>
-                <td>27,4%</td>
-                <td>0,10</td>
-              </tr>
-              <tr>
-                <td class="tk">S30O6</td>
-                <td>30/10/2026</td>
-                <td>91</td>
-                <td>127,89</td>
-                <td>26,2%</td>
-                <td>0,15</td>
-              </tr>
-              <tr>
-                <td class="tk">S13N6</td>
-                <td>13/11/2026</td>
-                <td>105</td>
-                <td>102,45</td>
-                <td>27,5%</td>
-                <td>0,17</td>
-              </tr>
-              <tr>
-                <td class="tk">S30N6</td>
-                <td>30/11/2026</td>
-                <td>122</td>
-                <td>119,98</td>
-                <td>27,6%</td>
-                <td>0,20</td>
-              </tr>
-              <tr>
-                <td class="tk">T15E7</td>
-                <td>15/01/2027</td>
-                <td>168</td>
-                <td>144,40</td>
-                <td>27,4%</td>
-                <td>0,28</td>
-              </tr>
-              <tr>
-                <td class="tk">T30A7</td>
-                <td>30/04/2027</td>
-                <td>273</td>
-                <td>131,04</td>
-                <td>28,1%</td>
-                <td>0,45</td>
-              </tr>
-              <tr>
-                <td class="tk">T31Y7</td>
-                <td>31/05/2027</td>
-                <td>304</td>
-                <td>124,40</td>
-                <td>27,1%</td>
-                <td>0,51</td>
-              </tr>
-              <tr>
-                <td class="tk">T30J7</td>
-                <td>30/06/2027</td>
-                <td>334</td>
-                <td>125,75</td>
-                <td>26,9%</td>
-                <td>0,56</td>
-              </tr>
-            </tbody>
-          </table>
+              <table class="ons compacta">
+      <thead><tr>
+        <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+        <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+        <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="tk">S14G6</td>
+          <td>14/08/2026</td>
+          <td>14</td>
+          <td>107,27</td>
+          <td>26,4%</td>
+          <td>0,02</td>
+        </tr>
+        <tr>
+          <td class="tk">S31G6</td>
+          <td>31/08/2026</td>
+          <td>31</td>
+          <td>124,91</td>
+          <td>24,9%</td>
+          <td>0,05</td>
+        </tr>
+        <tr>
+          <td class="tk">S15S6</td>
+          <td>15/09/2026</td>
+          <td>46</td>
+          <td>104,50</td>
+          <td>24,3%</td>
+          <td>0,08</td>
+        </tr>
+        <tr>
+          <td class="tk">S30S6</td>
+          <td>30/09/2026</td>
+          <td>61</td>
+          <td>113,10</td>
+          <td>27,4%</td>
+          <td>0,10</td>
+        </tr>
+        <tr>
+          <td class="tk">S30O6</td>
+          <td>30/10/2026</td>
+          <td>91</td>
+          <td>127,89</td>
+          <td>26,2%</td>
+          <td>0,15</td>
+        </tr>
+        <tr>
+          <td class="tk">S13N6</td>
+          <td>13/11/2026</td>
+          <td>105</td>
+          <td>102,45</td>
+          <td>27,5%</td>
+          <td>0,17</td>
+        </tr>
+        <tr>
+          <td class="tk">S30N6</td>
+          <td>30/11/2026</td>
+          <td>122</td>
+          <td>119,98</td>
+          <td>27,6%</td>
+          <td>0,20</td>
+        </tr>
+        <tr>
+          <td class="tk">T15E7</td>
+          <td>15/01/2027</td>
+          <td>168</td>
+          <td>144,40</td>
+          <td>27,4%</td>
+          <td>0,28</td>
+        </tr>
+        <tr>
+          <td class="tk">T30A7</td>
+          <td>30/04/2027</td>
+          <td>273</td>
+          <td>131,04</td>
+          <td>28,1%</td>
+          <td>0,45</td>
+        </tr>
+        <tr>
+          <td class="tk">T31Y7</td>
+          <td>31/05/2027</td>
+          <td>304</td>
+          <td>124,40</td>
+          <td>27,1%</td>
+          <td>0,51</td>
+        </tr>
+        <tr>
+          <td class="tk">T30J7</td>
+          <td>30/06/2027</td>
+          <td>334</td>
+          <td>125,75</td>
+          <td>26,9%</td>
+          <td>0,56</td>
+        </tr>
+      </tbody>
+    </table>
+
         </div>
         <div class="zona-grafico">
           <div>
@@ -1365,31 +1369,32 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
       <div class="bloque-cab"><h2>Bonos Duales</h2></div>
       <div class="">
         <div class="tabla-envoltorio-full">
-          <table class="ons compacta">
-            <thead><tr>
-              <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
-              <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
-              <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td class="tk">TTS26</td>
-                <td>15/09/2026</td>
-                <td>46</td>
-                <td>165,25</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td class="tk">TTD26</td>
-                <td>15/12/2026</td>
-                <td>137</td>
-                <td>164,55</td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
+              <table class="ons compacta">
+      <thead><tr>
+        <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+        <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+        <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="tk">TTS26</td>
+          <td>15/09/2026</td>
+          <td>46</td>
+          <td>165,25</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="tk">TTD26</td>
+          <td>15/12/2026</td>
+          <td>137</td>
+          <td>164,55</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
         </div>
       </div>
     </section>
@@ -1397,119 +1402,120 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
       <div class="bloque-cab"><h2>Bonos Tamar</h2></div>
       <div class="bloque-cuerpo">
         <div class="tabla-envoltorio">
-          <table class="ons compacta">
-            <thead><tr>
-              <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
-              <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
-              <th scope="col">TNA</th><th scope="col">Mod Dur.</th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td class="tk">M31G6</td>
-                <td>31/08/2026</td>
-                <td>31</td>
-                <td>127,95</td>
-                <td>19,7%</td>
-                <td>0,05</td>
-              </tr>
-              <tr>
-                <td class="tk">TTS26</td>
-                <td>15/09/2026</td>
-                <td>46</td>
-                <td>165,25</td>
-                <td>24,4%</td>
-                <td>0,08</td>
-              </tr>
-              <tr>
-                <td class="tk">TTD26</td>
-                <td>15/12/2026</td>
-                <td>137</td>
-                <td>164,55</td>
-                <td>23,5%</td>
-                <td>0,24</td>
-              </tr>
-              <tr>
-                <td class="tk">TMF27</td>
-                <td>26/02/2027</td>
-                <td>210</td>
-                <td>118,50</td>
-                <td>25,4%</td>
-                <td>0,36</td>
-              </tr>
-              <tr>
-                <td class="tk">TML27</td>
-                <td>30/07/2027</td>
-                <td>364</td>
-                <td>103,70</td>
-                <td>27,1%</td>
-                <td>0,61</td>
-              </tr>
-              <tr>
-                <td class="tk">TMG27</td>
-                <td>31/08/2027</td>
-                <td>396</td>
-                <td>113,20</td>
-                <td>26,3%</td>
-                <td>0,68</td>
-              </tr>
-              <tr>
-                <td class="tk">TMF28</td>
-                <td>25/02/2028</td>
-                <td>574</td>
-                <td>106,90</td>
-                <td>30,2%</td>
-                <td>0,92</td>
-              </tr>
-              <tr>
-                <td class="tk">TXMJ8</td>
-                <td>30/06/2028</td>
-                <td>700</td>
-                <td>98,25</td>
-                <td>29,6%</td>
-                <td>1,14</td>
-              </tr>
-              <tr>
-                <td class="tk">TMG28</td>
-                <td>31/08/2028</td>
-                <td>762</td>
-                <td>104,45</td>
-                <td>31,1%</td>
-                <td>1,21</td>
-              </tr>
-              <tr>
-                <td class="tk">TXMD8</td>
-                <td>15/12/2028</td>
-                <td>868</td>
-                <td>91,74</td>
-                <td>31,0%</td>
-                <td>1,38</td>
-              </tr>
-              <tr>
-                <td class="tk">TXMJ9</td>
-                <td>29/06/2029</td>
-                <td>1064</td>
-                <td>90,93</td>
-                <td>31,4%</td>
-                <td>1,68</td>
-              </tr>
-              <tr>
-                <td class="tk">TXMD9</td>
-                <td>14/12/2029</td>
-                <td>1232</td>
-                <td>85,15</td>
-                <td>31,7%</td>
-                <td>1,94</td>
-              </tr>
-              <tr>
-                <td class="tk">TXMJ0</td>
-                <td>28/06/2030</td>
-                <td>1428</td>
-                <td>81,99</td>
-                <td>31,9%</td>
-                <td>2,25</td>
-              </tr>
-            </tbody>
-          </table>
+              <table class="ons compacta">
+      <thead><tr>
+        <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+        <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+        <th scope="col">TNA</th><th scope="col">Mod Dur.</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="tk">M31G6</td>
+          <td>31/08/2026</td>
+          <td>31</td>
+          <td>127,95</td>
+          <td>19,7%</td>
+          <td>0,05</td>
+        </tr>
+        <tr>
+          <td class="tk">TTS26</td>
+          <td>15/09/2026</td>
+          <td>46</td>
+          <td>165,25</td>
+          <td>24,4%</td>
+          <td>0,08</td>
+        </tr>
+        <tr>
+          <td class="tk">TTD26</td>
+          <td>15/12/2026</td>
+          <td>137</td>
+          <td>164,55</td>
+          <td>23,5%</td>
+          <td>0,24</td>
+        </tr>
+        <tr>
+          <td class="tk">TMF27</td>
+          <td>26/02/2027</td>
+          <td>210</td>
+          <td>118,50</td>
+          <td>25,4%</td>
+          <td>0,36</td>
+        </tr>
+        <tr>
+          <td class="tk">TML27</td>
+          <td>30/07/2027</td>
+          <td>364</td>
+          <td>103,70</td>
+          <td>27,1%</td>
+          <td>0,61</td>
+        </tr>
+        <tr>
+          <td class="tk">TMG27</td>
+          <td>31/08/2027</td>
+          <td>396</td>
+          <td>113,20</td>
+          <td>26,3%</td>
+          <td>0,68</td>
+        </tr>
+        <tr>
+          <td class="tk">TMF28</td>
+          <td>25/02/2028</td>
+          <td>574</td>
+          <td>106,90</td>
+          <td>30,2%</td>
+          <td>0,92</td>
+        </tr>
+        <tr>
+          <td class="tk">TXMJ8</td>
+          <td>30/06/2028</td>
+          <td>700</td>
+          <td>98,25</td>
+          <td>29,6%</td>
+          <td>1,14</td>
+        </tr>
+        <tr>
+          <td class="tk">TMG28</td>
+          <td>31/08/2028</td>
+          <td>762</td>
+          <td>104,45</td>
+          <td>31,1%</td>
+          <td>1,21</td>
+        </tr>
+        <tr>
+          <td class="tk">TXMD8</td>
+          <td>15/12/2028</td>
+          <td>868</td>
+          <td>91,74</td>
+          <td>31,0%</td>
+          <td>1,38</td>
+        </tr>
+        <tr>
+          <td class="tk">TXMJ9</td>
+          <td>29/06/2029</td>
+          <td>1064</td>
+          <td>90,93</td>
+          <td>31,4%</td>
+          <td>1,68</td>
+        </tr>
+        <tr>
+          <td class="tk">TXMD9</td>
+          <td>14/12/2029</td>
+          <td>1232</td>
+          <td>85,15</td>
+          <td>31,7%</td>
+          <td>1,94</td>
+        </tr>
+        <tr>
+          <td class="tk">TXMJ0</td>
+          <td>28/06/2030</td>
+          <td>1428</td>
+          <td>81,99</td>
+          <td>31,9%</td>
+          <td>2,25</td>
+        </tr>
+      </tbody>
+    </table>
+
         </div>
         <div class="zona-grafico">
           <div>
@@ -1523,207 +1529,208 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
       <div class="bloque-cab"><h2>Bonos CER</h2></div>
       <div class="bloque-cuerpo">
         <div class="tabla-envoltorio">
-          <table class="ons compacta">
-            <thead><tr>
-              <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
-              <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
-              <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td class="tk">X30S6</td>
-                <td>30/09/2026</td>
-                <td>61</td>
-                <td>112,95</td>
-                <td>1,9%</td>
-                <td>0,16</td>
-              </tr>
-              <tr>
-                <td class="tk">TZXO6</td>
-                <td>30/10/2026</td>
-                <td>91</td>
-                <td>167,55</td>
-                <td>2,9%</td>
-                <td>0,23</td>
-              </tr>
-              <tr>
-                <td class="tk">TX26</td>
-                <td>09/11/2026</td>
-                <td>101</td>
-                <td>718,80</td>
-                <td>3,7%</td>
-                <td>0,26</td>
-              </tr>
-              <tr>
-                <td class="tk">X30N6</td>
-                <td>30/11/2026</td>
-                <td>122</td>
-                <td>121,04</td>
-                <td>4,5%</td>
-                <td>0,31</td>
-              </tr>
-              <tr>
-                <td class="tk">TZXD6</td>
-                <td>15/12/2026</td>
-                <td>137</td>
-                <td>294,25</td>
-                <td>4,3%</td>
-                <td>0,35</td>
-              </tr>
-              <tr>
-                <td class="tk">TZXM7</td>
-                <td>31/03/2027</td>
-                <td>243</td>
-                <td>218,75</td>
-                <td>3,8%</td>
-                <td>0,63</td>
-              </tr>
-              <tr>
-                <td class="tk">TZXA7</td>
-                <td>30/04/2027</td>
-                <td>273</td>
-                <td>119,00</td>
-                <td>6,0%</td>
-                <td>0,70</td>
-              </tr>
-              <tr>
-                <td class="tk">TZXY7</td>
-                <td>31/05/2027</td>
-                <td>304</td>
-                <td>119,00</td>
-                <td>5,2%</td>
-                <td>0,78</td>
-              </tr>
-              <tr>
-                <td class="tk">TZX27</td>
-                <td>30/06/2027</td>
-                <td>334</td>
-                <td>388,35</td>
-                <td>4,5%</td>
-                <td>0,87</td>
-              </tr>
-              <tr>
-                <td class="tk">TZXS7</td>
-                <td>30/09/2027</td>
-                <td>426</td>
-                <td>104,55</td>
-                <td>6,1%</td>
-                <td>1,09</td>
-              </tr>
-              <tr>
-                <td class="tk">TZXO7</td>
-                <td>29/10/2027</td>
-                <td>455</td>
-                <td>96,75</td>
-                <td>4,6%</td>
-                <td>1,18</td>
-              </tr>
-              <tr>
-                <td class="tk">TZXD7</td>
-                <td>15/12/2027</td>
-                <td>502</td>
-                <td>272,20</td>
-                <td>7,1%</td>
-                <td>1,28</td>
-              </tr>
-              <tr>
-                <td class="tk">TZXM8</td>
-                <td>31/03/2028</td>
-                <td>609</td>
-                <td>98,61</td>
-                <td>7,8%</td>
-                <td>1,54</td>
-              </tr>
-              <tr>
-                <td class="tk">TZX28</td>
-                <td>30/06/2028</td>
-                <td>700</td>
-                <td>347,40</td>
-                <td>8,3%</td>
-                <td>1,76</td>
-              </tr>
-              <tr>
-                <td class="tk">TXMJ8</td>
-                <td>30/06/2028</td>
-                <td>700</td>
-                <td>98,25</td>
-                <td>4,5%</td>
-                <td>1,83</td>
-              </tr>
-              <tr>
-                <td class="tk">TZXS8</td>
-                <td>29/09/2028</td>
-                <td>791</td>
-                <td>94,13</td>
-                <td>8,4%</td>
-                <td>1,99</td>
-              </tr>
-              <tr>
-                <td class="tk">TX28</td>
-                <td>09/11/2028</td>
-                <td>832</td>
-                <td>1.712,00</td>
-                <td>6,8%</td>
-                <td>1,15</td>
-              </tr>
-              <tr>
-                <td class="tk">TXMD8</td>
-                <td>15/12/2028</td>
-                <td>868</td>
-                <td>91,74</td>
-                <td>5,4%</td>
-                <td>2,25</td>
-              </tr>
-              <tr>
-                <td class="tk">TZXD8</td>
-                <td>15/12/2028</td>
-                <td>868</td>
-                <td>88,00</td>
-                <td>6,6%</td>
-                <td>2,22</td>
-              </tr>
-              <tr>
-                <td class="tk">TZXM9</td>
-                <td>28/03/2029</td>
-                <td>971</td>
-                <td>90,05</td>
-                <td>8,5%</td>
-                <td>2,45</td>
-              </tr>
-              <tr>
-                <td class="tk">TXMJ9</td>
-                <td>29/06/2029</td>
-                <td>1064</td>
-                <td>90,93</td>
-                <td>6,3%</td>
-                <td>2,74</td>
-              </tr>
-              <tr>
-                <td class="tk">TXMD9</td>
-                <td>14/12/2029</td>
-                <td>1232</td>
-                <td>85,15</td>
-                <td>6,1%</td>
-                <td>3,17</td>
-              </tr>
-              <tr>
-                <td class="tk">TXMJ0</td>
-                <td>28/06/2030</td>
-                <td>1428</td>
-                <td>81,99</td>
-                <td>6,2%</td>
-                <td>3,67</td>
-              </tr>
-              <tr>
-                <td class="tk">TX31</td>
-                <td>30/11/2031</td>
-                <td>1948</td>
-                <td>1.466,00</td>
-                <td>8,7%</td>
-                <td>2,60</td>
-              </tr>
-            </tbody>
-          </table>
+              <table class="ons compacta">
+      <thead><tr>
+        <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+        <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+        <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="tk">X30S6</td>
+          <td>30/09/2026</td>
+          <td>61</td>
+          <td>112,95</td>
+          <td>1,9%</td>
+          <td>0,16</td>
+        </tr>
+        <tr>
+          <td class="tk">TZXO6</td>
+          <td>30/10/2026</td>
+          <td>91</td>
+          <td>167,55</td>
+          <td>2,9%</td>
+          <td>0,23</td>
+        </tr>
+        <tr>
+          <td class="tk">TX26</td>
+          <td>09/11/2026</td>
+          <td>101</td>
+          <td>718,80</td>
+          <td>3,7%</td>
+          <td>0,26</td>
+        </tr>
+        <tr>
+          <td class="tk">X30N6</td>
+          <td>30/11/2026</td>
+          <td>122</td>
+          <td>121,04</td>
+          <td>4,5%</td>
+          <td>0,31</td>
+        </tr>
+        <tr>
+          <td class="tk">TZXD6</td>
+          <td>15/12/2026</td>
+          <td>137</td>
+          <td>294,25</td>
+          <td>4,3%</td>
+          <td>0,35</td>
+        </tr>
+        <tr>
+          <td class="tk">TZXM7</td>
+          <td>31/03/2027</td>
+          <td>243</td>
+          <td>218,75</td>
+          <td>3,8%</td>
+          <td>0,63</td>
+        </tr>
+        <tr>
+          <td class="tk">TZXA7</td>
+          <td>30/04/2027</td>
+          <td>273</td>
+          <td>119,00</td>
+          <td>6,0%</td>
+          <td>0,70</td>
+        </tr>
+        <tr>
+          <td class="tk">TZXY7</td>
+          <td>31/05/2027</td>
+          <td>304</td>
+          <td>119,00</td>
+          <td>5,2%</td>
+          <td>0,78</td>
+        </tr>
+        <tr>
+          <td class="tk">TZX27</td>
+          <td>30/06/2027</td>
+          <td>334</td>
+          <td>388,35</td>
+          <td>4,5%</td>
+          <td>0,87</td>
+        </tr>
+        <tr>
+          <td class="tk">TZXS7</td>
+          <td>30/09/2027</td>
+          <td>426</td>
+          <td>104,55</td>
+          <td>6,1%</td>
+          <td>1,09</td>
+        </tr>
+        <tr>
+          <td class="tk">TZXO7</td>
+          <td>29/10/2027</td>
+          <td>455</td>
+          <td>96,75</td>
+          <td>4,6%</td>
+          <td>1,18</td>
+        </tr>
+        <tr>
+          <td class="tk">TZXD7</td>
+          <td>15/12/2027</td>
+          <td>502</td>
+          <td>272,20</td>
+          <td>7,1%</td>
+          <td>1,28</td>
+        </tr>
+        <tr>
+          <td class="tk">TZXM8</td>
+          <td>31/03/2028</td>
+          <td>609</td>
+          <td>98,61</td>
+          <td>7,8%</td>
+          <td>1,54</td>
+        </tr>
+        <tr>
+          <td class="tk">TZX28</td>
+          <td>30/06/2028</td>
+          <td>700</td>
+          <td>347,40</td>
+          <td>8,3%</td>
+          <td>1,76</td>
+        </tr>
+        <tr>
+          <td class="tk">TXMJ8</td>
+          <td>30/06/2028</td>
+          <td>700</td>
+          <td>98,25</td>
+          <td>4,5%</td>
+          <td>1,83</td>
+        </tr>
+        <tr>
+          <td class="tk">TZXS8</td>
+          <td>29/09/2028</td>
+          <td>791</td>
+          <td>94,13</td>
+          <td>8,4%</td>
+          <td>1,99</td>
+        </tr>
+        <tr>
+          <td class="tk">TX28</td>
+          <td>09/11/2028</td>
+          <td>832</td>
+          <td>1.712,00</td>
+          <td>6,8%</td>
+          <td>1,15</td>
+        </tr>
+        <tr>
+          <td class="tk">TXMD8</td>
+          <td>15/12/2028</td>
+          <td>868</td>
+          <td>91,74</td>
+          <td>5,4%</td>
+          <td>2,25</td>
+        </tr>
+        <tr>
+          <td class="tk">TZXD8</td>
+          <td>15/12/2028</td>
+          <td>868</td>
+          <td>88,00</td>
+          <td>6,6%</td>
+          <td>2,22</td>
+        </tr>
+        <tr>
+          <td class="tk">TZXM9</td>
+          <td>28/03/2029</td>
+          <td>971</td>
+          <td>90,05</td>
+          <td>8,5%</td>
+          <td>2,45</td>
+        </tr>
+        <tr>
+          <td class="tk">TXMJ9</td>
+          <td>29/06/2029</td>
+          <td>1064</td>
+          <td>90,93</td>
+          <td>6,3%</td>
+          <td>2,74</td>
+        </tr>
+        <tr>
+          <td class="tk">TXMD9</td>
+          <td>14/12/2029</td>
+          <td>1232</td>
+          <td>85,15</td>
+          <td>6,1%</td>
+          <td>3,17</td>
+        </tr>
+        <tr>
+          <td class="tk">TXMJ0</td>
+          <td>28/06/2030</td>
+          <td>1428</td>
+          <td>81,99</td>
+          <td>6,2%</td>
+          <td>3,67</td>
+        </tr>
+        <tr>
+          <td class="tk">TX31</td>
+          <td>30/11/2031</td>
+          <td>1948</td>
+          <td>1.466,00</td>
+          <td>8,7%</td>
+          <td>2,60</td>
+        </tr>
+      </tbody>
+    </table>
+
         </div>
         <div class="zona-grafico zona-grafico-multi">
           <div>
@@ -1741,71 +1748,72 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
       <div class="bloque-cab"><h2>Bonos Vinculados al Dólar</h2></div>
       <div class="bloque-cuerpo">
         <div class="tabla-envoltorio">
-          <table class="ons compacta">
-            <thead><tr>
-              <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
-              <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
-              <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td class="tk">D31G6</td>
-                <td>31/08/2026</td>
-                <td>31</td>
-                <td>147.800,00</td>
-                <td>10,1%</td>
-                <td>0,11</td>
-              </tr>
-              <tr>
-                <td class="tk">D30S6</td>
-                <td>30/09/2026</td>
-                <td>61</td>
-                <td>148.990,00</td>
-                <td>-0,4%</td>
-                <td>0,19</td>
-              </tr>
-              <tr>
-                <td class="tk">D31M7</td>
-                <td>31/03/2027</td>
-                <td>243</td>
-                <td>146.000,00</td>
-                <td>3,0%</td>
-                <td>0,69</td>
-              </tr>
-              <tr>
-                <td class="tk">D10Y7</td>
-                <td>10/05/2027</td>
-                <td>283</td>
-                <td>146.800,00</td>
-                <td>1,9%</td>
-                <td>0,80</td>
-              </tr>
-              <tr>
-                <td class="tk">TZV27</td>
-                <td>30/06/2027</td>
-                <td>334</td>
-                <td>147.500,00</td>
-                <td>1,0%</td>
-                <td>0,93</td>
-              </tr>
-              <tr>
-                <td class="tk">TZV28</td>
-                <td>30/06/2028</td>
-                <td>700</td>
-                <td>128.800,00</td>
-                <td>7,9%</td>
-                <td>1,87</td>
-              </tr>
-              <tr>
-                <td class="tk">TZVD8</td>
-                <td>15/12/2028</td>
-                <td>868</td>
-                <td>121.900,00</td>
-                <td>8,8%</td>
-                <td>2,31</td>
-              </tr>
-            </tbody>
-          </table>
+              <table class="ons compacta">
+      <thead><tr>
+        <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+        <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+        <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="tk">D31G6</td>
+          <td>31/08/2026</td>
+          <td>31</td>
+          <td>147.800,00</td>
+          <td>10,1%</td>
+          <td>0,11</td>
+        </tr>
+        <tr>
+          <td class="tk">D30S6</td>
+          <td>30/09/2026</td>
+          <td>61</td>
+          <td>148.990,00</td>
+          <td>-0,4%</td>
+          <td>0,19</td>
+        </tr>
+        <tr>
+          <td class="tk">D31M7</td>
+          <td>31/03/2027</td>
+          <td>243</td>
+          <td>146.000,00</td>
+          <td>3,0%</td>
+          <td>0,69</td>
+        </tr>
+        <tr>
+          <td class="tk">D10Y7</td>
+          <td>10/05/2027</td>
+          <td>283</td>
+          <td>146.800,00</td>
+          <td>1,9%</td>
+          <td>0,80</td>
+        </tr>
+        <tr>
+          <td class="tk">TZV27</td>
+          <td>30/06/2027</td>
+          <td>334</td>
+          <td>147.500,00</td>
+          <td>1,0%</td>
+          <td>0,93</td>
+        </tr>
+        <tr>
+          <td class="tk">TZV28</td>
+          <td>30/06/2028</td>
+          <td>700</td>
+          <td>128.800,00</td>
+          <td>7,9%</td>
+          <td>1,87</td>
+        </tr>
+        <tr>
+          <td class="tk">TZVD8</td>
+          <td>15/12/2028</td>
+          <td>868</td>
+          <td>121.900,00</td>
+          <td>8,8%</td>
+          <td>2,31</td>
+        </tr>
+      </tbody>
+    </table>
+
         </div>
         <div class="zona-grafico">
           <div>
@@ -1819,55 +1827,56 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
       <div class="bloque-cab"><h2>Bopreales (USD)</h2></div>
       <div class="bloque-cuerpo">
         <div class="tabla-envoltorio">
-          <table class="ons compacta">
-            <thead><tr>
-              <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
-              <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
-              <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td class="tk">BPOA7</td>
-                <td>31/10/2027</td>
-                <td>457</td>
-                <td>102,05</td>
-                <td>7,7%</td>
-                <td>1,06</td>
-              </tr>
-              <tr>
-                <td class="tk">BPOB7</td>
-                <td>31/10/2027</td>
-                <td>457</td>
-                <td>98,92</td>
-                <td>7,5%</td>
-                <td>1,06</td>
-              </tr>
-              <tr>
-                <td class="tk">BPOC7</td>
-                <td>31/10/2027</td>
-                <td>457</td>
-                <td>102,20</td>
-                <td>3,1%</td>
-                <td>1,06</td>
-              </tr>
-              <tr>
-                <td class="tk">BPOD7</td>
-                <td>31/10/2027</td>
-                <td>457</td>
-                <td>102,00</td>
-                <td>3,0%</td>
-                <td>1,06</td>
-              </tr>
-              <tr>
-                <td class="tk">BPOB8</td>
-                <td>31/10/2028</td>
-                <td>823</td>
-                <td>91,82</td>
-                <td>6,7%</td>
-                <td>2,21</td>
-              </tr>
-            </tbody>
-          </table>
+              <table class="ons compacta">
+      <thead><tr>
+        <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+        <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+        <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="tk">BPOA7</td>
+          <td>31/10/2027</td>
+          <td>457</td>
+          <td>102,05</td>
+          <td>7,7%</td>
+          <td>1,06</td>
+        </tr>
+        <tr>
+          <td class="tk">BPOB7</td>
+          <td>31/10/2027</td>
+          <td>457</td>
+          <td>98,92</td>
+          <td>7,5%</td>
+          <td>1,06</td>
+        </tr>
+        <tr>
+          <td class="tk">BPOC7</td>
+          <td>31/10/2027</td>
+          <td>457</td>
+          <td>102,20</td>
+          <td>3,1%</td>
+          <td>1,06</td>
+        </tr>
+        <tr>
+          <td class="tk">BPOD7</td>
+          <td>31/10/2027</td>
+          <td>457</td>
+          <td>102,00</td>
+          <td>3,0%</td>
+          <td>1,06</td>
+        </tr>
+        <tr>
+          <td class="tk">BPOB8</td>
+          <td>31/10/2028</td>
+          <td>823</td>
+          <td>91,82</td>
+          <td>6,7%</td>
+          <td>2,21</td>
+        </tr>
+      </tbody>
+    </table>
+
         </div>
         <div class="zona-grafico">
           <div>
@@ -1878,163 +1887,156 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
       </div>
     </section>
     <section class="bloque">
-      <div class="bloque-cab"><h2>Bonos en USD — Ley Local</h2></div>
-      <div class="">
-        <div class="tabla-envoltorio-full">
-          <table class="ons compacta">
-            <thead><tr>
-              <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
-              <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
-              <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td class="tk">AO27D</td>
-                <td>29/10/2027</td>
-                <td>455</td>
-                <td>102,55</td>
-                <td>4,0%</td>
-                <td>1,15</td>
-              </tr>
-              <tr>
-                <td class="tk">AO28D</td>
-                <td>31/10/2028</td>
-                <td>823</td>
-                <td>96,59</td>
-                <td>8,0%</td>
-                <td>1,95</td>
-              </tr>
-              <tr>
-                <td class="tk">AL29D</td>
-                <td>10/07/2029</td>
-                <td>1075</td>
-                <td>54,66</td>
-                <td>6,9%</td>
-                <td>1,53</td>
-              </tr>
-              <tr>
-                <td class="tk">AO29D</td>
-                <td>31/10/2029</td>
-                <td>1188</td>
-                <td>94,36</td>
-                <td>8,4%</td>
-                <td>2,71</td>
-              </tr>
-              <tr>
-                <td class="tk">AN29D</td>
-                <td>30/11/2029</td>
-                <td>1218</td>
-                <td>96,15</td>
-                <td>8,4%</td>
-                <td>2,77</td>
-              </tr>
-              <tr>
-                <td class="tk">AL30D</td>
-                <td>09/07/2030</td>
-                <td>1439</td>
-                <td>56,29</td>
-                <td>7,7%</td>
-                <td>1,93</td>
-              </tr>
-              <tr>
-                <td class="tk">AL35D</td>
-                <td>10/07/2035</td>
-                <td>3266</td>
-                <td>78,47</td>
-                <td>9,5%</td>
-                <td>5,09</td>
-              </tr>
-              <tr>
-                <td class="tk">AE38D</td>
-                <td>11/01/2038</td>
-                <td>4182</td>
-                <td>81,56</td>
-                <td>9,5%</td>
-                <td>4,39</td>
-              </tr>
-              <tr>
-                <td class="tk">AL41D</td>
-                <td>10/07/2041</td>
-                <td>5458</td>
-                <td>74,46</td>
-                <td>9,3%</td>
-                <td>5,62</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-    <section class="bloque">
-      <div class="bloque-cab"><h2>Bonos en USD — Ley Internacional</h2></div>
-      <div class="">
-        <div class="tabla-envoltorio-full">
-          <table class="ons compacta">
-            <thead><tr>
-              <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
-              <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
-              <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td class="tk">GD29C</td>
-                <td>10/07/2029</td>
-                <td>1075</td>
-                <td>53,70</td>
-                <td>8,1%</td>
-                <td>1,50</td>
-              </tr>
-              <tr>
-                <td class="tk">GD30C</td>
-                <td>09/07/2030</td>
-                <td>1439</td>
-                <td>55,80</td>
-                <td>8,1%</td>
-                <td>1,92</td>
-              </tr>
-              <tr>
-                <td class="tk">GD35C</td>
-                <td>10/07/2035</td>
-                <td>3266</td>
-                <td>78,77</td>
-                <td>9,4%</td>
-                <td>5,10</td>
-              </tr>
-              <tr>
-                <td class="tk">GD38C</td>
-                <td>11/01/2038</td>
-                <td>4182</td>
-                <td>82,11</td>
-                <td>9,3%</td>
-                <td>4,40</td>
-              </tr>
-              <tr>
-                <td class="tk">GD41C</td>
-                <td>10/07/2041</td>
-                <td>5458</td>
-                <td>73,82</td>
-                <td>9,4%</td>
-                <td>5,59</td>
-              </tr>
-              <tr>
-                <td class="tk">GD46C</td>
-                <td>10/07/2046</td>
-                <td>7284</td>
-                <td>67,32</td>
-                <td>9,4%</td>
-                <td>6,01</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+      <div class="bloque-cab"><h2>Bonos en USD</h2></div>
+      <div class="bloque-cuerpo">
+        <div class="tabla-envoltorio tabla-envoltorio-apilada">
+          <div class="subtitulo-tabla">Bonos en USD — Ley Local</div>
+              <table class="ons compacta">
+      <thead><tr>
+        <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+        <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+        <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="tk">AO27D</td>
+          <td>29/10/2027</td>
+          <td>455</td>
+          <td>102,55</td>
+          <td>4,0%</td>
+          <td>1,15</td>
+        </tr>
+        <tr>
+          <td class="tk">AO28D</td>
+          <td>31/10/2028</td>
+          <td>823</td>
+          <td>96,59</td>
+          <td>8,0%</td>
+          <td>1,95</td>
+        </tr>
+        <tr>
+          <td class="tk">AL29D</td>
+          <td>10/07/2029</td>
+          <td>1075</td>
+          <td>54,66</td>
+          <td>6,9%</td>
+          <td>1,53</td>
+        </tr>
+        <tr>
+          <td class="tk">AO29D</td>
+          <td>31/10/2029</td>
+          <td>1188</td>
+          <td>94,36</td>
+          <td>8,4%</td>
+          <td>2,71</td>
+        </tr>
+        <tr>
+          <td class="tk">AN29D</td>
+          <td>30/11/2029</td>
+          <td>1218</td>
+          <td>96,15</td>
+          <td>8,4%</td>
+          <td>2,77</td>
+        </tr>
+        <tr>
+          <td class="tk">AL30D</td>
+          <td>09/07/2030</td>
+          <td>1439</td>
+          <td>56,29</td>
+          <td>7,7%</td>
+          <td>1,93</td>
+        </tr>
+        <tr>
+          <td class="tk">AL35D</td>
+          <td>10/07/2035</td>
+          <td>3266</td>
+          <td>78,47</td>
+          <td>9,5%</td>
+          <td>5,09</td>
+        </tr>
+        <tr>
+          <td class="tk">AE38D</td>
+          <td>11/01/2038</td>
+          <td>4182</td>
+          <td>81,56</td>
+          <td>9,5%</td>
+          <td>4,39</td>
+        </tr>
+        <tr>
+          <td class="tk">AL41D</td>
+          <td>10/07/2041</td>
+          <td>5458</td>
+          <td>74,46</td>
+          <td>9,3%</td>
+          <td>5,62</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <section class="bloque">
-      <div class="bloque-cab"><h2>Bonos Hard Dollar</h2></div>
-      <div class="zona-grafico-sola">
-        <div class="grafico-titulo">TIR vs Mod Duration</div>
-        <svg class="grafico" viewBox="0 0 620 360" role="img" preserveAspectRatio="xMidYMid meet" aria-label="TIR contra Mod Duration — Bonos Hard Dollar"><g transform="translate(54,14)"><line class="grilla" x1="0" y1="280.0" x2="540" y2="280.0"/><text class="tick tick-y" x="-8" y="283.5">4,0%</text><line class="grilla" x1="0" y1="186.7" x2="540" y2="186.7"/><text class="tick tick-y" x="-8" y="190.2">6,0%</text><line class="grilla" x1="0" y1="93.3" x2="540" y2="93.3"/><text class="tick tick-y" x="-8" y="96.8">8,0%</text><line class="grilla" x1="0" y1="0.0" x2="540" y2="0.0"/><text class="tick tick-y" x="-8" y="3.5">10,0%</text><text class="tick tick-x" x="0.0" y="300">1,0</text><text class="tick tick-x" x="90.0" y="300">2,0</text><text class="tick tick-x" x="180.0" y="300">3,0</text><text class="tick tick-x" x="270.0" y="300">4,0</text><text class="tick tick-x" x="360.0" y="300">5,0</text><text class="tick tick-x" x="450.0" y="300">6,0</text><text class="tick tick-x" x="540.0" y="300">7,0</text><line class="eje" x1="0" y1="280" x2="540" y2="280"/><text class="eje-titulo" x="270.0" y="316">Mod Duration (años)</text><path class="tendencia" d="M13.5,202.4 L23.8,190.2 L34.1,179.0 L44.5,168.7 L54.8,159.2 L65.1,150.4 L75.4,142.1 L85.7,134.3 L96.0,126.9 L106.3,120.0 L116.6,113.4 L126.9,107.1 L137.2,101.1 L147.5,95.4 L157.8,90.0 L168.1,84.7 L178.4,79.7 L188.8,74.8 L199.1,70.1 L209.4,65.6 L219.7,61.3 L230.0,57.1 L240.3,53.0 L250.6,49.0 L260.9,45.2 L271.2,41.5 L281.5,37.8 L291.8,34.3 L302.1,30.9 L312.4,27.5 L322.7,24.3 L333.1,21.1 L343.4,18.0 L353.7,15.0 L364.0,12.0 L374.3,9.1 L384.6,6.3 L394.9,3.5 L405.2,0.8 L415.5,-1.8" style="stroke:#12375F"/><circle class="hit" cx="13.5" cy="279.2" r="12" data-ticker="AO27D" data-y="TIR 4,02%" data-dur="Mod Duration 1,15"><title>AO27D (Ley Local) — TIR 4,02%, Mod Duration 1,15</title></circle><circle class="punto" cx="13.5" cy="279.2" r="5" style="fill:#12375F"/><circle class="hit" cx="85.3" cy="95.2" r="12" data-ticker="AO28D" data-y="TIR 7,96%" data-dur="Mod Duration 1,95"><title>AO28D (Ley Local) — TIR 7,96%, Mod Duration 1,95</title></circle><circle class="punto" cx="85.3" cy="95.2" r="5" style="fill:#12375F"/><circle class="hit" cx="47.5" cy="144.7" r="12" data-ticker="AL29D" data-y="TIR 6,90%" data-dur="Mod Duration 1,53"><title>AL29D (Ley Local) — TIR 6,90%, Mod Duration 1,53</title></circle><circle class="punto" cx="47.5" cy="144.7" r="5" style="fill:#12375F"/><circle class="hit" cx="153.9" cy="74.6" r="12" data-ticker="AO29D" data-y="TIR 8,40%" data-dur="Mod Duration 2,71"><title>AO29D (Ley Local) — TIR 8,40%, Mod Duration 2,71</title></circle><circle class="punto" cx="153.9" cy="74.6" r="5" style="fill:#12375F"/><circle class="hit" cx="159.4" cy="74.6" r="12" data-ticker="AN29D" data-y="TIR 8,40%" data-dur="Mod Duration 2,77"><title>AN29D (Ley Local) — TIR 8,40%, Mod Duration 2,77</title></circle><circle class="punto" cx="159.4" cy="74.6" r="5" style="fill:#12375F"/><circle class="hit" cx="84.1" cy="107.8" r="12" data-ticker="AL30D" data-y="TIR 7,69%" data-dur="Mod Duration 1,93"><title>AL30D (Ley Local) — TIR 7,69%, Mod Duration 1,93</title></circle><circle class="punto" cx="84.1" cy="107.8" r="5" style="fill:#12375F"/><circle class="hit" cx="368.5" cy="23.8" r="12" data-ticker="AL35D" data-y="TIR 9,49%" data-dur="Mod Duration 5,09"><title>AL35D (Ley Local) — TIR 9,49%, Mod Duration 5,09</title></circle><circle class="punto" cx="368.5" cy="23.8" r="5" style="fill:#12375F"/><circle class="hit" cx="304.7" cy="23.8" r="12" data-ticker="AE38D" data-y="TIR 9,49%" data-dur="Mod Duration 4,39"><title>AE38D (Ley Local) — TIR 9,49%, Mod Duration 4,39</title></circle><circle class="punto" cx="304.7" cy="23.8" r="5" style="fill:#12375F"/><circle class="hit" cx="415.5" cy="34.6" r="12" data-ticker="AL41D" data-y="TIR 9,26%" data-dur="Mod Duration 5,62"><title>AL41D (Ley Local) — TIR 9,26%, Mod Duration 5,62</title></circle><circle class="punto" cx="415.5" cy="34.6" r="5" style="fill:#12375F"/><path class="tendencia" d="M45.3,93.3 L55.7,89.5 L66.1,85.9 L76.5,82.6 L86.9,79.4 L97.3,76.5 L107.7,73.7 L118.1,71.1 L128.5,68.5 L138.9,66.1 L149.4,63.9 L159.8,61.7 L170.2,59.6 L180.6,57.5 L191.0,55.6 L201.4,53.7 L211.8,51.9 L222.2,50.2 L232.6,48.5 L243.0,46.8 L253.4,45.2 L263.8,43.7 L274.2,42.2 L284.6,40.7 L295.0,39.3 L305.4,38.0 L315.8,36.6 L326.2,35.3 L336.6,34.0 L347.0,32.8 L357.4,31.6 L367.8,30.4 L378.2,29.2 L388.6,28.1 L399.0,27.0 L409.4,25.9 L419.8,24.8 L430.2,23.8 L440.6,22.8 L451.0,21.8" style="stroke:#B8860B"/><circle class="hit" cx="45.3" cy="90.1" r="12" data-ticker="GD29C" data-y="TIR 8,07%" data-dur="Mod Duration 1,50"><title>GD29C (Ley Internacional) — TIR 8,07%, Mod Duration 1,50</title></circle><circle class="punto" cx="45.3" cy="90.1" r="5" style="fill:#B8860B"/><circle class="hit" cx="82.9" cy="86.7" r="12" data-ticker="GD30C" data-y="TIR 8,14%" data-dur="Mod Duration 1,92"><title>GD30C (Ley Internacional) — TIR 8,14%, Mod Duration 1,92</title></circle><circle class="punto" cx="82.9" cy="86.7" r="5" style="fill:#B8860B"/><circle class="hit" cx="369.1" cy="27.3" r="12" data-ticker="GD35C" data-y="TIR 9,42%" data-dur="Mod Duration 5,10"><title>GD35C (Ley Internacional) — TIR 9,42%, Mod Duration 5,10</title></circle><circle class="punto" cx="369.1" cy="27.3" r="5" style="fill:#B8860B"/><circle class="hit" cx="306.3" cy="30.9" r="12" data-ticker="GD38C" data-y="TIR 9,34%" data-dur="Mod Duration 4,40"><title>GD38C (Ley Internacional) — TIR 9,34%, Mod Duration 4,40</title></circle><circle class="punto" cx="306.3" cy="30.9" r="5" style="fill:#B8860B"/><circle class="hit" cx="413.1" cy="27.4" r="12" data-ticker="GD41C" data-y="TIR 9,41%" data-dur="Mod Duration 5,59"><title>GD41C (Ley Internacional) — TIR 9,41%, Mod Duration 5,59</title></circle><circle class="punto" cx="413.1" cy="27.4" r="5" style="fill:#B8860B"/><circle class="hit" cx="451.0" cy="26.9" r="12" data-ticker="GD46C" data-y="TIR 9,42%" data-dur="Mod Duration 6,01"><title>GD46C (Ley Internacional) — TIR 9,42%, Mod Duration 6,01</title></circle><circle class="punto" cx="451.0" cy="26.9" r="5" style="fill:#B8860B"/><text class="etiqueta" x="36.8" y="264.7">AO27D</text><text class="etiqueta" x="85.3" y="72.7">AO28D</text><text class="etiqueta" x="47.5" y="134.2">AL29D</text><text class="etiqueta" x="153.9" y="64.1">AO29D</text><text class="etiqueta" x="159.4" y="96.1">AN29D</text><text class="etiqueta" x="84.1" y="129.3">AL30D</text><text class="etiqueta" x="368.5" y="13.3">AL35D</text><text class="etiqueta" x="304.7" y="13.3">AE38D</text><text class="etiqueta" x="415.5" y="56.1">AL41D</text><text class="etiqueta" x="45.3" y="79.6">GD29C</text><text class="etiqueta" x="59.7" y="110.2">GD30C</text><text class="etiqueta" x="369.1" y="48.8">GD35C</text><text class="etiqueta" x="306.3" y="52.4">GD38C</text><text class="etiqueta" x="413.1" y="16.9">GD41C</text><text class="etiqueta" x="451.0" y="16.4">GD46C</text><circle cx="5" cy="310" r="5" style="fill:#12375F"/><text class="leyenda-item" x="15" y="313.5">Ley Local</text><circle cx="98.9" cy="310" r="5" style="fill:#B8860B"/><text class="leyenda-item" x="108.9" y="313.5">Ley Internacional</text></g></svg>
+          <div class="subtitulo-tabla">Bonos en USD — Ley Internacional</div>
+              <table class="ons compacta">
+      <thead><tr>
+        <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+        <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+        <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="tk">GD29C</td>
+          <td>10/07/2029</td>
+          <td>1075</td>
+          <td>53,70</td>
+          <td>8,1%</td>
+          <td>1,50</td>
+        </tr>
+        <tr>
+          <td class="tk">GD30C</td>
+          <td>09/07/2030</td>
+          <td>1439</td>
+          <td>55,80</td>
+          <td>8,1%</td>
+          <td>1,92</td>
+        </tr>
+        <tr>
+          <td class="tk">GD35C</td>
+          <td>10/07/2035</td>
+          <td>3266</td>
+          <td>78,77</td>
+          <td>9,4%</td>
+          <td>5,10</td>
+        </tr>
+        <tr>
+          <td class="tk">GD38C</td>
+          <td>11/01/2038</td>
+          <td>4182</td>
+          <td>82,11</td>
+          <td>9,3%</td>
+          <td>4,40</td>
+        </tr>
+        <tr>
+          <td class="tk">GD41C</td>
+          <td>10/07/2041</td>
+          <td>5458</td>
+          <td>73,82</td>
+          <td>9,4%</td>
+          <td>5,59</td>
+        </tr>
+        <tr>
+          <td class="tk">GD46C</td>
+          <td>10/07/2046</td>
+          <td>7284</td>
+          <td>67,32</td>
+          <td>9,4%</td>
+          <td>6,01</td>
+        </tr>
+      </tbody>
+    </table>
+
+        </div>
+        <div class="zona-grafico">
+          <div class="grafico-titulo">Bonos Hard Dollar — TIR vs Mod Duration</div>
+          <svg class="grafico" viewBox="0 0 620 360" role="img" preserveAspectRatio="xMidYMid meet" aria-label="TIR contra Mod Duration — Bonos Hard Dollar"><g transform="translate(54,14)"><line class="grilla" x1="0" y1="280.0" x2="540" y2="280.0"/><text class="tick tick-y" x="-8" y="283.5">4,0%</text><line class="grilla" x1="0" y1="186.7" x2="540" y2="186.7"/><text class="tick tick-y" x="-8" y="190.2">6,0%</text><line class="grilla" x1="0" y1="93.3" x2="540" y2="93.3"/><text class="tick tick-y" x="-8" y="96.8">8,0%</text><line class="grilla" x1="0" y1="0.0" x2="540" y2="0.0"/><text class="tick tick-y" x="-8" y="3.5">10,0%</text><text class="tick tick-x" x="0.0" y="300">1,0</text><text class="tick tick-x" x="90.0" y="300">2,0</text><text class="tick tick-x" x="180.0" y="300">3,0</text><text class="tick tick-x" x="270.0" y="300">4,0</text><text class="tick tick-x" x="360.0" y="300">5,0</text><text class="tick tick-x" x="450.0" y="300">6,0</text><text class="tick tick-x" x="540.0" y="300">7,0</text><line class="eje" x1="0" y1="280" x2="540" y2="280"/><text class="eje-titulo" x="270.0" y="316">Mod Duration (años)</text><path class="tendencia" d="M13.5,202.4 L23.8,190.2 L34.1,179.0 L44.5,168.7 L54.8,159.2 L65.1,150.4 L75.4,142.1 L85.7,134.3 L96.0,126.9 L106.3,120.0 L116.6,113.4 L126.9,107.1 L137.2,101.1 L147.5,95.4 L157.8,90.0 L168.1,84.7 L178.4,79.7 L188.8,74.8 L199.1,70.1 L209.4,65.6 L219.7,61.3 L230.0,57.1 L240.3,53.0 L250.6,49.0 L260.9,45.2 L271.2,41.5 L281.5,37.8 L291.8,34.3 L302.1,30.9 L312.4,27.5 L322.7,24.3 L333.1,21.1 L343.4,18.0 L353.7,15.0 L364.0,12.0 L374.3,9.1 L384.6,6.3 L394.9,3.5 L405.2,0.8 L415.5,-1.8" style="stroke:#12375F"/><circle class="hit" cx="13.5" cy="279.2" r="12" data-ticker="AO27D" data-y="TIR 4,02%" data-dur="Mod Duration 1,15"><title>AO27D (Ley Local) — TIR 4,02%, Mod Duration 1,15</title></circle><circle class="punto" cx="13.5" cy="279.2" r="5" style="fill:#12375F"/><circle class="hit" cx="85.3" cy="95.2" r="12" data-ticker="AO28D" data-y="TIR 7,96%" data-dur="Mod Duration 1,95"><title>AO28D (Ley Local) — TIR 7,96%, Mod Duration 1,95</title></circle><circle class="punto" cx="85.3" cy="95.2" r="5" style="fill:#12375F"/><circle class="hit" cx="47.5" cy="144.7" r="12" data-ticker="AL29D" data-y="TIR 6,90%" data-dur="Mod Duration 1,53"><title>AL29D (Ley Local) — TIR 6,90%, Mod Duration 1,53</title></circle><circle class="punto" cx="47.5" cy="144.7" r="5" style="fill:#12375F"/><circle class="hit" cx="153.9" cy="74.6" r="12" data-ticker="AO29D" data-y="TIR 8,40%" data-dur="Mod Duration 2,71"><title>AO29D (Ley Local) — TIR 8,40%, Mod Duration 2,71</title></circle><circle class="punto" cx="153.9" cy="74.6" r="5" style="fill:#12375F"/><circle class="hit" cx="159.4" cy="74.6" r="12" data-ticker="AN29D" data-y="TIR 8,40%" data-dur="Mod Duration 2,77"><title>AN29D (Ley Local) — TIR 8,40%, Mod Duration 2,77</title></circle><circle class="punto" cx="159.4" cy="74.6" r="5" style="fill:#12375F"/><circle class="hit" cx="84.1" cy="107.8" r="12" data-ticker="AL30D" data-y="TIR 7,69%" data-dur="Mod Duration 1,93"><title>AL30D (Ley Local) — TIR 7,69%, Mod Duration 1,93</title></circle><circle class="punto" cx="84.1" cy="107.8" r="5" style="fill:#12375F"/><circle class="hit" cx="368.5" cy="23.8" r="12" data-ticker="AL35D" data-y="TIR 9,49%" data-dur="Mod Duration 5,09"><title>AL35D (Ley Local) — TIR 9,49%, Mod Duration 5,09</title></circle><circle class="punto" cx="368.5" cy="23.8" r="5" style="fill:#12375F"/><circle class="hit" cx="304.7" cy="23.8" r="12" data-ticker="AE38D" data-y="TIR 9,49%" data-dur="Mod Duration 4,39"><title>AE38D (Ley Local) — TIR 9,49%, Mod Duration 4,39</title></circle><circle class="punto" cx="304.7" cy="23.8" r="5" style="fill:#12375F"/><circle class="hit" cx="415.5" cy="34.6" r="12" data-ticker="AL41D" data-y="TIR 9,26%" data-dur="Mod Duration 5,62"><title>AL41D (Ley Local) — TIR 9,26%, Mod Duration 5,62</title></circle><circle class="punto" cx="415.5" cy="34.6" r="5" style="fill:#12375F"/><path class="tendencia" d="M45.3,93.3 L55.7,89.5 L66.1,85.9 L76.5,82.6 L86.9,79.4 L97.3,76.5 L107.7,73.7 L118.1,71.1 L128.5,68.5 L138.9,66.1 L149.4,63.9 L159.8,61.7 L170.2,59.6 L180.6,57.5 L191.0,55.6 L201.4,53.7 L211.8,51.9 L222.2,50.2 L232.6,48.5 L243.0,46.8 L253.4,45.2 L263.8,43.7 L274.2,42.2 L284.6,40.7 L295.0,39.3 L305.4,38.0 L315.8,36.6 L326.2,35.3 L336.6,34.0 L347.0,32.8 L357.4,31.6 L367.8,30.4 L378.2,29.2 L388.6,28.1 L399.0,27.0 L409.4,25.9 L419.8,24.8 L430.2,23.8 L440.6,22.8 L451.0,21.8" style="stroke:#B8860B"/><circle class="hit" cx="45.3" cy="90.1" r="12" data-ticker="GD29C" data-y="TIR 8,07%" data-dur="Mod Duration 1,50"><title>GD29C (Ley Internacional) — TIR 8,07%, Mod Duration 1,50</title></circle><circle class="punto" cx="45.3" cy="90.1" r="5" style="fill:#B8860B"/><circle class="hit" cx="82.9" cy="86.7" r="12" data-ticker="GD30C" data-y="TIR 8,14%" data-dur="Mod Duration 1,92"><title>GD30C (Ley Internacional) — TIR 8,14%, Mod Duration 1,92</title></circle><circle class="punto" cx="82.9" cy="86.7" r="5" style="fill:#B8860B"/><circle class="hit" cx="369.1" cy="27.3" r="12" data-ticker="GD35C" data-y="TIR 9,42%" data-dur="Mod Duration 5,10"><title>GD35C (Ley Internacional) — TIR 9,42%, Mod Duration 5,10</title></circle><circle class="punto" cx="369.1" cy="27.3" r="5" style="fill:#B8860B"/><circle class="hit" cx="306.3" cy="30.9" r="12" data-ticker="GD38C" data-y="TIR 9,34%" data-dur="Mod Duration 4,40"><title>GD38C (Ley Internacional) — TIR 9,34%, Mod Duration 4,40</title></circle><circle class="punto" cx="306.3" cy="30.9" r="5" style="fill:#B8860B"/><circle class="hit" cx="413.1" cy="27.4" r="12" data-ticker="GD41C" data-y="TIR 9,41%" data-dur="Mod Duration 5,59"><title>GD41C (Ley Internacional) — TIR 9,41%, Mod Duration 5,59</title></circle><circle class="punto" cx="413.1" cy="27.4" r="5" style="fill:#B8860B"/><circle class="hit" cx="451.0" cy="26.9" r="12" data-ticker="GD46C" data-y="TIR 9,42%" data-dur="Mod Duration 6,01"><title>GD46C (Ley Internacional) — TIR 9,42%, Mod Duration 6,01</title></circle><circle class="punto" cx="451.0" cy="26.9" r="5" style="fill:#B8860B"/><text class="etiqueta" x="36.8" y="264.7">AO27D</text><text class="etiqueta" x="85.3" y="72.7">AO28D</text><text class="etiqueta" x="47.5" y="134.2">AL29D</text><text class="etiqueta" x="153.9" y="64.1">AO29D</text><text class="etiqueta" x="159.4" y="96.1">AN29D</text><text class="etiqueta" x="84.1" y="129.3">AL30D</text><text class="etiqueta" x="368.5" y="13.3">AL35D</text><text class="etiqueta" x="304.7" y="13.3">AE38D</text><text class="etiqueta" x="415.5" y="56.1">AL41D</text><text class="etiqueta" x="45.3" y="79.6">GD29C</text><text class="etiqueta" x="59.7" y="110.2">GD30C</text><text class="etiqueta" x="369.1" y="48.8">GD35C</text><text class="etiqueta" x="306.3" y="52.4">GD38C</text><text class="etiqueta" x="413.1" y="16.9">GD41C</text><text class="etiqueta" x="451.0" y="16.4">GD46C</text><circle cx="5" cy="310" r="5" style="fill:#12375F"/><text class="leyenda-item" x="15" y="313.5">Ley Local</text><circle cx="98.9" cy="310" r="5" style="fill:#B8860B"/><text class="leyenda-item" x="108.9" y="313.5">Ley Internacional</text></g></svg>
+        </div>
       </div>
     </section>
   </section>
@@ -2047,7 +2049,7 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
 +54 11 5252 – 8980. En cumplimiento del art. 27 inc. 3 de la ley 25.326 (protección de datos personales) y del anexo I, art. 27, párrafo tercero del decreto 1558/2001, le informamos que, si deseara no recibir más información publicitaria, tiene el derecho de solicitar el retiro o bloqueo total o parcial de su nombre en nuestras bases de datos llamando al +54 11 5252 – 8980 o enviando un mail a info@davalores.com.ar. Si usted no es cliente, solo deberá enviar un mail a la dirección mencionada. Ley N° 26.831 (Título VII- Cap. II. Art. 12°): DA VALORES S.A. Es una sociedad anónima constituida bajo las leyes de la república argentina. CUIT N° 30-71618100-2, Ortiz de Ocampo 3220 piso 1°, CABA, Argentina. Términos de seguridad y privacidad de la política de uso de hipervínculos © Copyright. DA VALORES S.A. 2024. Todos los derechos reservados. Ninguna parte de esta publicación puede ser reproducida, almacenada en un sistema de recuperación, o transmitida, en cualquier forma o por cualquier medio, electrónico, mecánico, fotocopia, grabación, o de otro modo, sin la autorización previa y por escrito de DA VALORES S.A. DA VALORES S.A. – Agente De Liquidación Y Compensación Y Agente De Negociación Integral (ALYC Y AN I) registrado bajo el N°974 ante la Comisión Nacional De Valores (CNV).”</p>
   <div class="sello">
     <span>DA Valores S.A. — Research</span>
-    <span>Generado el 31/07/2026 15:16</span>
+    <span>Generado el 31/07/2026 15:28</span>
   </div>
 </div>
 
