@@ -227,6 +227,11 @@ table.ons tbody tr:nth-child(even){background:var(--zebra)}
 table.ons td{font-variant-numeric:tabular-nums;color:var(--tinta)}
 table.ons td.tk{font-weight:600;font-variant-numeric:normal}
 table.ons td.em{font-variant-numeric:normal;color:var(--tinta-2)}
+/* Bloque de "Bonos Soberanos": mismo estilo que .bloque de ONs, pero sin la
+   columna de grafico -- son 9 categorias, un grafico por cada una saturaria
+   la pagina. Solo tabla, a lo ancho completo. */
+.tabla-envoltorio-full{overflow-x:auto}
+table.ons.compacta th,table.ons.compacta td{padding:5px 9px}
 .zona-grafico{padding:14px 16px;min-width:0;display:flex;flex-direction:column;gap:6px}
 .grafico-titulo{font-size:12.5px;font-weight:600;color:var(--tinta-2);text-align:center}
 svg.grafico{width:100%;height:auto;display:block;overflow:visible}
@@ -294,6 +299,9 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
     <button class="pestana" role="tab" id="tab-on" aria-controls="panel-on"
             aria-selected="false"><span class="largo">Obligaciones Negociables</span><span
             class="corto">ONs</span></button>
+    <button class="pestana" role="tab" id="tab-sob" aria-controls="panel-sob"
+            aria-selected="false"><span class="largo">Bonos Soberanos</span><span
+            class="corto">Soberanos</span></button>
   </div>
 </nav>
 </div>
@@ -1194,14 +1202,779 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
       </div>
     </section>
   </section>
+
+  <!-- ============ Bonos Soberanos ============ -->
+  <section class="panel" id="panel-sob" role="tabpanel" aria-labelledby="tab-sob" hidden
+           data-fecha="31/07/2026">
+    <section class="bloque">
+      <div class="bloque-cab"><h2>Bonos del Tesoro Nacional — Tasa Fija</h2></div>
+      <div class="tabla-envoltorio-full">
+        <table class="ons compacta">
+          <thead><tr>
+            <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+            <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+            <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="tk">TO26</td>
+              <td>17/10/2026</td>
+              <td>78</td>
+              <td>101,80</td>
+              <td>30,9%</td>
+              <td>0,16</td>
+            </tr>
+            <tr>
+              <td class="tk">TY30P</td>
+              <td>30/05/2030</td>
+              <td>1399</td>
+              <td>112,05</td>
+              <td>28,2%</td>
+              <td>1,93</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="bloque">
+      <div class="bloque-cab"><h2>Lecaps y Boncaps</h2></div>
+      <div class="tabla-envoltorio-full">
+        <table class="ons compacta">
+          <thead><tr>
+            <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+            <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+            <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="tk">S14G6</td>
+              <td>14/08/2026</td>
+              <td>14</td>
+              <td>107,27</td>
+              <td>26,4%</td>
+              <td>0,02</td>
+            </tr>
+            <tr>
+              <td class="tk">S31G6</td>
+              <td>31/08/2026</td>
+              <td>31</td>
+              <td>124,91</td>
+              <td>24,9%</td>
+              <td>0,05</td>
+            </tr>
+            <tr>
+              <td class="tk">S15S6</td>
+              <td>15/09/2026</td>
+              <td>46</td>
+              <td>104,50</td>
+              <td>24,3%</td>
+              <td>0,08</td>
+            </tr>
+            <tr>
+              <td class="tk">S30S6</td>
+              <td>30/09/2026</td>
+              <td>61</td>
+              <td>113,10</td>
+              <td>27,4%</td>
+              <td>0,10</td>
+            </tr>
+            <tr>
+              <td class="tk">S30O6</td>
+              <td>30/10/2026</td>
+              <td>91</td>
+              <td>127,89</td>
+              <td>26,2%</td>
+              <td>0,15</td>
+            </tr>
+            <tr>
+              <td class="tk">S13N6</td>
+              <td>13/11/2026</td>
+              <td>105</td>
+              <td>102,45</td>
+              <td>27,5%</td>
+              <td>0,17</td>
+            </tr>
+            <tr>
+              <td class="tk">S30N6</td>
+              <td>30/11/2026</td>
+              <td>122</td>
+              <td>119,98</td>
+              <td>27,6%</td>
+              <td>0,20</td>
+            </tr>
+            <tr>
+              <td class="tk">T15E7</td>
+              <td>15/01/2027</td>
+              <td>168</td>
+              <td>144,40</td>
+              <td>27,4%</td>
+              <td>0,28</td>
+            </tr>
+            <tr>
+              <td class="tk">T30A7</td>
+              <td>30/04/2027</td>
+              <td>273</td>
+              <td>131,04</td>
+              <td>28,1%</td>
+              <td>0,45</td>
+            </tr>
+            <tr>
+              <td class="tk">T31Y7</td>
+              <td>31/05/2027</td>
+              <td>304</td>
+              <td>124,40</td>
+              <td>27,1%</td>
+              <td>0,51</td>
+            </tr>
+            <tr>
+              <td class="tk">T30J7</td>
+              <td>30/06/2027</td>
+              <td>334</td>
+              <td>125,75</td>
+              <td>26,9%</td>
+              <td>0,56</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="bloque">
+      <div class="bloque-cab"><h2>Bonos Duales</h2></div>
+      <div class="tabla-envoltorio-full">
+        <table class="ons compacta">
+          <thead><tr>
+            <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+            <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+            <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="tk">TTS26</td>
+              <td>15/09/2026</td>
+              <td>46</td>
+              <td>165,25</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="tk">TTD26</td>
+              <td>15/12/2026</td>
+              <td>137</td>
+              <td>164,55</td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="bloque">
+      <div class="bloque-cab"><h2>Bonos Tamar</h2></div>
+      <div class="tabla-envoltorio-full">
+        <table class="ons compacta">
+          <thead><tr>
+            <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+            <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+            <th scope="col">TNA</th><th scope="col">Mod Dur.</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="tk">M31G6</td>
+              <td>31/08/2026</td>
+              <td>31</td>
+              <td>127,95</td>
+              <td>19,7%</td>
+              <td>0,05</td>
+            </tr>
+            <tr>
+              <td class="tk">TTS26</td>
+              <td>15/09/2026</td>
+              <td>46</td>
+              <td>165,25</td>
+              <td>24,4%</td>
+              <td>0,08</td>
+            </tr>
+            <tr>
+              <td class="tk">TTD26</td>
+              <td>15/12/2026</td>
+              <td>137</td>
+              <td>164,55</td>
+              <td>23,5%</td>
+              <td>0,24</td>
+            </tr>
+            <tr>
+              <td class="tk">TMF27</td>
+              <td>26/02/2027</td>
+              <td>210</td>
+              <td>118,50</td>
+              <td>25,4%</td>
+              <td>0,36</td>
+            </tr>
+            <tr>
+              <td class="tk">TML27</td>
+              <td>30/07/2027</td>
+              <td>364</td>
+              <td>103,70</td>
+              <td>27,1%</td>
+              <td>0,61</td>
+            </tr>
+            <tr>
+              <td class="tk">TMG27</td>
+              <td>31/08/2027</td>
+              <td>396</td>
+              <td>113,20</td>
+              <td>26,3%</td>
+              <td>0,68</td>
+            </tr>
+            <tr>
+              <td class="tk">TMF28</td>
+              <td>25/02/2028</td>
+              <td>574</td>
+              <td>106,90</td>
+              <td>30,2%</td>
+              <td>0,92</td>
+            </tr>
+            <tr>
+              <td class="tk">TXMJ8</td>
+              <td>30/06/2028</td>
+              <td>700</td>
+              <td>98,25</td>
+              <td>29,6%</td>
+              <td>1,14</td>
+            </tr>
+            <tr>
+              <td class="tk">TMG28</td>
+              <td>31/08/2028</td>
+              <td>762</td>
+              <td>104,45</td>
+              <td>31,1%</td>
+              <td>1,21</td>
+            </tr>
+            <tr>
+              <td class="tk">TXMD8</td>
+              <td>15/12/2028</td>
+              <td>868</td>
+              <td>91,74</td>
+              <td>31,0%</td>
+              <td>1,38</td>
+            </tr>
+            <tr>
+              <td class="tk">TXMJ9</td>
+              <td>29/06/2029</td>
+              <td>1064</td>
+              <td>90,93</td>
+              <td>31,4%</td>
+              <td>1,68</td>
+            </tr>
+            <tr>
+              <td class="tk">TXMD9</td>
+              <td>14/12/2029</td>
+              <td>1232</td>
+              <td>85,15</td>
+              <td>31,7%</td>
+              <td>1,94</td>
+            </tr>
+            <tr>
+              <td class="tk">TXMJ0</td>
+              <td>28/06/2030</td>
+              <td>1428</td>
+              <td>81,99</td>
+              <td>31,9%</td>
+              <td>2,25</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="bloque">
+      <div class="bloque-cab"><h2>Bonos CER</h2></div>
+      <div class="tabla-envoltorio-full">
+        <table class="ons compacta">
+          <thead><tr>
+            <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+            <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+            <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="tk">X30S6</td>
+              <td>30/09/2026</td>
+              <td>61</td>
+              <td>112,95</td>
+              <td>1,9%</td>
+              <td>0,16</td>
+            </tr>
+            <tr>
+              <td class="tk">TZXO6</td>
+              <td>30/10/2026</td>
+              <td>91</td>
+              <td>167,55</td>
+              <td>2,9%</td>
+              <td>0,23</td>
+            </tr>
+            <tr>
+              <td class="tk">TX26</td>
+              <td>09/11/2026</td>
+              <td>101</td>
+              <td>718,80</td>
+              <td>3,7%</td>
+              <td>0,26</td>
+            </tr>
+            <tr>
+              <td class="tk">X30N6</td>
+              <td>30/11/2026</td>
+              <td>122</td>
+              <td>121,04</td>
+              <td>4,5%</td>
+              <td>0,31</td>
+            </tr>
+            <tr>
+              <td class="tk">TZXD6</td>
+              <td>15/12/2026</td>
+              <td>137</td>
+              <td>294,25</td>
+              <td>4,3%</td>
+              <td>0,35</td>
+            </tr>
+            <tr>
+              <td class="tk">TZXM7</td>
+              <td>31/03/2027</td>
+              <td>243</td>
+              <td>218,75</td>
+              <td>3,8%</td>
+              <td>0,63</td>
+            </tr>
+            <tr>
+              <td class="tk">TZXA7</td>
+              <td>30/04/2027</td>
+              <td>273</td>
+              <td>119,00</td>
+              <td>6,0%</td>
+              <td>0,70</td>
+            </tr>
+            <tr>
+              <td class="tk">TZXY7</td>
+              <td>31/05/2027</td>
+              <td>304</td>
+              <td>119,00</td>
+              <td>5,2%</td>
+              <td>0,78</td>
+            </tr>
+            <tr>
+              <td class="tk">TZX27</td>
+              <td>30/06/2027</td>
+              <td>334</td>
+              <td>388,35</td>
+              <td>4,5%</td>
+              <td>0,87</td>
+            </tr>
+            <tr>
+              <td class="tk">TZXS7</td>
+              <td>30/09/2027</td>
+              <td>426</td>
+              <td>104,55</td>
+              <td>6,1%</td>
+              <td>1,09</td>
+            </tr>
+            <tr>
+              <td class="tk">TZXO7</td>
+              <td>29/10/2027</td>
+              <td>455</td>
+              <td>96,75</td>
+              <td>4,6%</td>
+              <td>1,18</td>
+            </tr>
+            <tr>
+              <td class="tk">TZXD7</td>
+              <td>15/12/2027</td>
+              <td>502</td>
+              <td>272,20</td>
+              <td>7,1%</td>
+              <td>1,28</td>
+            </tr>
+            <tr>
+              <td class="tk">TZXM8</td>
+              <td>31/03/2028</td>
+              <td>609</td>
+              <td>98,61</td>
+              <td>7,8%</td>
+              <td>1,54</td>
+            </tr>
+            <tr>
+              <td class="tk">TZX28</td>
+              <td>30/06/2028</td>
+              <td>700</td>
+              <td>347,40</td>
+              <td>8,3%</td>
+              <td>1,76</td>
+            </tr>
+            <tr>
+              <td class="tk">TXMJ8</td>
+              <td>30/06/2028</td>
+              <td>700</td>
+              <td>98,25</td>
+              <td>4,5%</td>
+              <td>1,83</td>
+            </tr>
+            <tr>
+              <td class="tk">TZXS8</td>
+              <td>29/09/2028</td>
+              <td>791</td>
+              <td>94,13</td>
+              <td>8,4%</td>
+              <td>1,99</td>
+            </tr>
+            <tr>
+              <td class="tk">TX28</td>
+              <td>09/11/2028</td>
+              <td>832</td>
+              <td>1.712,00</td>
+              <td>6,8%</td>
+              <td>1,15</td>
+            </tr>
+            <tr>
+              <td class="tk">TXMD8</td>
+              <td>15/12/2028</td>
+              <td>868</td>
+              <td>91,74</td>
+              <td>5,4%</td>
+              <td>2,25</td>
+            </tr>
+            <tr>
+              <td class="tk">TZXD8</td>
+              <td>15/12/2028</td>
+              <td>868</td>
+              <td>88,00</td>
+              <td>6,6%</td>
+              <td>2,22</td>
+            </tr>
+            <tr>
+              <td class="tk">TZXM9</td>
+              <td>28/03/2029</td>
+              <td>971</td>
+              <td>90,05</td>
+              <td>8,5%</td>
+              <td>2,45</td>
+            </tr>
+            <tr>
+              <td class="tk">TXMJ9</td>
+              <td>29/06/2029</td>
+              <td>1064</td>
+              <td>90,93</td>
+              <td>6,3%</td>
+              <td>2,74</td>
+            </tr>
+            <tr>
+              <td class="tk">TXMD9</td>
+              <td>14/12/2029</td>
+              <td>1232</td>
+              <td>85,15</td>
+              <td>6,1%</td>
+              <td>3,17</td>
+            </tr>
+            <tr>
+              <td class="tk">TXMJ0</td>
+              <td>28/06/2030</td>
+              <td>1428</td>
+              <td>81,99</td>
+              <td>6,2%</td>
+              <td>3,67</td>
+            </tr>
+            <tr>
+              <td class="tk">TX31</td>
+              <td>30/11/2031</td>
+              <td>1948</td>
+              <td>1.466,00</td>
+              <td>8,7%</td>
+              <td>2,60</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="bloque">
+      <div class="bloque-cab"><h2>Bonos Vinculados al Dólar</h2></div>
+      <div class="tabla-envoltorio-full">
+        <table class="ons compacta">
+          <thead><tr>
+            <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+            <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+            <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="tk">D31G6</td>
+              <td>31/08/2026</td>
+              <td>31</td>
+              <td>147.800,00</td>
+              <td>10,1%</td>
+              <td>0,11</td>
+            </tr>
+            <tr>
+              <td class="tk">D30S6</td>
+              <td>30/09/2026</td>
+              <td>61</td>
+              <td>148.990,00</td>
+              <td>-0,4%</td>
+              <td>0,19</td>
+            </tr>
+            <tr>
+              <td class="tk">D31M7</td>
+              <td>31/03/2027</td>
+              <td>243</td>
+              <td>146.000,00</td>
+              <td>3,0%</td>
+              <td>0,69</td>
+            </tr>
+            <tr>
+              <td class="tk">D10Y7</td>
+              <td>10/05/2027</td>
+              <td>283</td>
+              <td>146.800,00</td>
+              <td>1,9%</td>
+              <td>0,80</td>
+            </tr>
+            <tr>
+              <td class="tk">TZV27</td>
+              <td>30/06/2027</td>
+              <td>334</td>
+              <td>147.500,00</td>
+              <td>1,0%</td>
+              <td>0,93</td>
+            </tr>
+            <tr>
+              <td class="tk">TZV28</td>
+              <td>30/06/2028</td>
+              <td>700</td>
+              <td>128.800,00</td>
+              <td>7,9%</td>
+              <td>1,87</td>
+            </tr>
+            <tr>
+              <td class="tk">TZVD8</td>
+              <td>15/12/2028</td>
+              <td>868</td>
+              <td>121.900,00</td>
+              <td>8,8%</td>
+              <td>2,31</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="bloque">
+      <div class="bloque-cab"><h2>Bonos en USD — Ley Local</h2></div>
+      <div class="tabla-envoltorio-full">
+        <table class="ons compacta">
+          <thead><tr>
+            <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+            <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+            <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="tk">AO27D</td>
+              <td>29/10/2027</td>
+              <td>455</td>
+              <td>102,55</td>
+              <td>4,0%</td>
+              <td>1,15</td>
+            </tr>
+            <tr>
+              <td class="tk">AO28D</td>
+              <td>31/10/2028</td>
+              <td>823</td>
+              <td>96,59</td>
+              <td>8,0%</td>
+              <td>1,95</td>
+            </tr>
+            <tr>
+              <td class="tk">AL29D</td>
+              <td>10/07/2029</td>
+              <td>1075</td>
+              <td>54,66</td>
+              <td>6,9%</td>
+              <td>1,53</td>
+            </tr>
+            <tr>
+              <td class="tk">AO29D</td>
+              <td>31/10/2029</td>
+              <td>1188</td>
+              <td>94,36</td>
+              <td>8,4%</td>
+              <td>2,71</td>
+            </tr>
+            <tr>
+              <td class="tk">AN29D</td>
+              <td>30/11/2029</td>
+              <td>1218</td>
+              <td>96,15</td>
+              <td>8,4%</td>
+              <td>2,77</td>
+            </tr>
+            <tr>
+              <td class="tk">AL30D</td>
+              <td>09/07/2030</td>
+              <td>1439</td>
+              <td>56,29</td>
+              <td>7,7%</td>
+              <td>1,93</td>
+            </tr>
+            <tr>
+              <td class="tk">AL35D</td>
+              <td>10/07/2035</td>
+              <td>3266</td>
+              <td>78,47</td>
+              <td>9,5%</td>
+              <td>5,09</td>
+            </tr>
+            <tr>
+              <td class="tk">AE38D</td>
+              <td>11/01/2038</td>
+              <td>4182</td>
+              <td>81,56</td>
+              <td>9,5%</td>
+              <td>4,39</td>
+            </tr>
+            <tr>
+              <td class="tk">AL41D</td>
+              <td>10/07/2041</td>
+              <td>5458</td>
+              <td>74,46</td>
+              <td>9,3%</td>
+              <td>5,62</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="bloque">
+      <div class="bloque-cab"><h2>Bonos en USD — Ley Internacional</h2></div>
+      <div class="tabla-envoltorio-full">
+        <table class="ons compacta">
+          <thead><tr>
+            <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+            <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+            <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="tk">GD29C</td>
+              <td>10/07/2029</td>
+              <td>1075</td>
+              <td>53,70</td>
+              <td>8,1%</td>
+              <td>1,50</td>
+            </tr>
+            <tr>
+              <td class="tk">GD30C</td>
+              <td>09/07/2030</td>
+              <td>1439</td>
+              <td>55,80</td>
+              <td>8,1%</td>
+              <td>1,92</td>
+            </tr>
+            <tr>
+              <td class="tk">GD35C</td>
+              <td>10/07/2035</td>
+              <td>3266</td>
+              <td>78,77</td>
+              <td>9,4%</td>
+              <td>5,10</td>
+            </tr>
+            <tr>
+              <td class="tk">GD38C</td>
+              <td>11/01/2038</td>
+              <td>4182</td>
+              <td>82,11</td>
+              <td>9,3%</td>
+              <td>4,40</td>
+            </tr>
+            <tr>
+              <td class="tk">GD41C</td>
+              <td>10/07/2041</td>
+              <td>5458</td>
+              <td>73,82</td>
+              <td>9,4%</td>
+              <td>5,59</td>
+            </tr>
+            <tr>
+              <td class="tk">GD46C</td>
+              <td>10/07/2046</td>
+              <td>7284</td>
+              <td>67,32</td>
+              <td>9,4%</td>
+              <td>6,01</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="bloque">
+      <div class="bloque-cab"><h2>Bopreales (USD)</h2></div>
+      <div class="tabla-envoltorio-full">
+        <table class="ons compacta">
+          <thead><tr>
+            <th scope="col">Ticker</th><th scope="col">Vencimiento</th>
+            <th scope="col">Plazo rem. (días)</th><th scope="col">Precio</th>
+            <th scope="col">TIR</th><th scope="col">Mod Dur.</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="tk">BPOA7</td>
+              <td>31/10/2027</td>
+              <td>457</td>
+              <td>102,05</td>
+              <td>7,7%</td>
+              <td>1,06</td>
+            </tr>
+            <tr>
+              <td class="tk">BPOB7</td>
+              <td>31/10/2027</td>
+              <td>457</td>
+              <td>98,92</td>
+              <td>7,5%</td>
+              <td>1,06</td>
+            </tr>
+            <tr>
+              <td class="tk">BPOC7</td>
+              <td>31/10/2027</td>
+              <td>457</td>
+              <td>102,20</td>
+              <td>3,1%</td>
+              <td>1,06</td>
+            </tr>
+            <tr>
+              <td class="tk">BPOD7</td>
+              <td>31/10/2027</td>
+              <td>457</td>
+              <td>102,00</td>
+              <td>3,0%</td>
+              <td>1,06</td>
+            </tr>
+            <tr>
+              <td class="tk">BPOB8</td>
+              <td>31/10/2028</td>
+              <td>823</td>
+              <td>91,82</td>
+              <td>6,7%</td>
+              <td>2,21</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
 </main>
 
 <div class="pie">
   <p class="disclaimer" id="disclaimer-fin">La información del presente se sustenta en condiciones actuales de mercado, según la fecha mencionada. Asimismo, tal información puede encontrarse sujeta a cambios, reservándose DA VALORES el derecho de actualizar, modificar o eliminar la información en cualquier momento sin necesidad de comunicación previa y sin asumir responsabilidad alguna frente al destinatario del presente.</p>
   <p class="disclaimer" id="disclaimer-on" hidden>“Este documento ha sido distribuido por DA Valores S.A. (en adelante “DA VALORES”) La información del presente se sustenta en condiciones actuales de mercado, según la fecha mencionada en este documento, e incluye datos extraídos de fuentes consideradas confiables. Sin perjuicio de ello, la precisión y confiabilidad de tales datos no ha sido verificada previamente, no existiendo garantías y no aceptando responsabilidad en cuanto a su exactitud e integridad. Asimismo, tal información puede encontrarse sujeta a cambios, reservándose DA VALORES el derecho de actualizar, modificar o eliminar la información en cualquier momento sin necesidad de comunicación previa y sin asumir responsabilidad alguna frente al destinatario del presente. DA VALORES no garantiza que el contenido del presente sea exacto, suficiente o pertinente para el destinatario, no estando obligado a proporcionar información adicional o actualizar la totalidad o parte de su contenido. De este modo, la recepción del presente no constituye una oferta, invitación, recomendación o incentivo para comprar o vender algún valor negociable, inversiones u otro producto. Cualquier pronóstico, proyección y/o valor objetivo son de carácter meramente indicativo y DA VALORES no se hace responsable de que no se cumplan los mismos. Asimismo, el desempeño pasado de los valores negociables aquí mencionados no es necesariamente indicativo de resultados futuros. El destinatario es responsable de realizar su propia evaluación de la información contenida en el presente, así como requerir el asesoramiento comercial, fiscal, jurídico y de cualquier otra clase correspondiente, en caso de considerarlo necesario; no siendo DA VALORES responsable de ninguna pérdida o daño de cualquier tipo, que pudiera surgir a partir del uso de esta publicación. Las personas que accedan a este material deben informarse y observar las restricciones regulatorias  relevantes al momento de operar. DA VALORES no se responsabiliza de las posibles discrepancias que puedan surgir entre la versión electrónica del documento y de la información publicada en sitios sobre los cuales no posee vínculos o la imposibilidad de acceder a los mismos. Este documento debe leerse en su totalidad y no deberá ser fotocopiado, duplicado, redistribuido, comercializado, modificado, adaptado por cualquier medio y en cualquier forma, o cualquier otra actividad que pueda realizarse, en todo o en parte, ni aun citando las fuentes, salvo consentimiento por escrito de DA VALORES. Le recordamos que DA VALORES nunca envía a sus clientes correos electrónicos solicitando información confidencial como: cuentas, claves de acceso, contraseñas. Si usted recibe un correo, un mensaje de texto o un llamado por teléfono que le solicite estos datos, por favor, repórtelo enviando un correo a info@davalores.com.ar o comuníquese con nosotros llamando al +54 11 5252 – 8980. En cumplimiento del art. 27 inc. 3 de la ley 25.326 (protección de datos personales) y del anexo I, art. 27, párrafo tercero del decreto 1558/2001, le informamos que, si deseara no recibir más información publicitaria, tiene el derecho de solicitar el retiro o bloqueo total o parcial de su nombre en nuestras bases de datos llamando al +54 11 5252 – 8980 o enviando un mail a info@davalores.com.ar. Si usted no es cliente, solo deberá enviar un mail a la dirección mencionada. Ley N° 26.831 (Título VII- Cap. II. Art. 12°): DA VALORES S.A. Es una sociedad anónima constituida bajo las leyes de la república argentina. CUIT N° 30-71618100-2, Ortiz de Ocampo 3220 piso 1°, CABA, Argentina. Términos de seguridad y privacidad de la política de uso de hipervínculos © Copyright. DA VALORES S.A. 2024. Todos los derechos reservados. Ninguna parte de esta publicación puede ser reproducida, almacenada en un sistema de recuperación, o transmitida, en cualquier forma o por cualquier medio, electrónico, mecánico, fotocopia, grabación, o de otro modo, sin la autorización previa y por escrito de DA VALORES S.A. DA VALORES S.A. – Agente De Liquidación Y Compensación Y Agente De Negociación Integral (ALYC Y AN I) registrado bajo el N°974 ante la Comisión Nacional De Valores (CNV).”</p>
+  <p class="disclaimer" id="disclaimer-sob" hidden>“Este documento ha sido distribuido por DA Valores S.A. (en adelante “DA VALORES”) La información del presente se sustenta en condiciones actuales de mercado, según la fecha mencionada en este documento, e incluye datos extraídos de fuentes consideradas confiables. Sin perjuicio de ello, la precisión y confiabilidad de tales datos no ha sido verificada previamente, no existiendo garantías y no aceptando responsabilidad en cuanto a su exactitud e integridad. Asimismo, tal información puede encontrarse sujeta a cambios, reservándose DA VALORES el derecho de actualizar, modificar o eliminar la información en cualquier momento sin necesidad de comunicación previa y sin asumir responsabilidad alguna frente al destinatario del presente. DA VALORES no garantiza que el contenido del presente sea exacto, suficiente o pertinente para el destinatario, no estando obligado a proporcionar información adicional o actualizar la totalidad o parte de su contenido. De este modo, la recepción del presente no constituye una oferta, invitación, recomendación o incentivo para comprar o vender algún valor negociable, inversiones u otro producto. Cualquier pronóstico, proyección y/o valor objetivo son de carácter meramente indicativo y DA VALORES no se hace responsable de que no se cumplan los mismos. Asimismo, el desempeño pasado de los valores negociables aquí mencionados no es necesariamente indicativo de resultados futuros. El destinatario es responsable de realizar su propia evaluación de la información contenida en el presente, así como requerir el asesoramiento comercial, fiscal, jurídico y de cualquier otra clase correspondiente, en caso de considerarlo necesario; no siendo DA VALORES responsable de ninguna pérdida o daño de cualquier tipo, que pudiera surgir a partir del uso de esta publicación. Las personas que accedan a este material deben informarse y observar las restricciones regulatorias  relevantes al momento de operar. DA VALORES no se responsabiliza de las posibles discrepancias que puedan surgir entre la versión electrónica del documento y de la información publicada en sitios sobre los cuales no posee vínculos o la imposibilidad de acceder a los mismos. Este documento debe leerse en su totalidad y no deberá ser fotocopiado, duplicado, redistribuido, comercializado, modificado, adaptado por cualquier medio y en cualquier forma, o cualquier otra actividad que pueda realizarse, en todo o en parte, ni aun citando las fuentes, salvo consentimiento por escrito de DA VALORES. Le recordamos que DA VALORES nunca envía a sus clientes correos electrónicos solicitando información confidencial como: cuentas, claves de acceso, contraseñas. Si usted recibe un correo, un mensaje de texto o un llamado por teléfono que le solicite estos datos, por favor, repórtelo enviando un correo a info@davalores.com.ar o comuníquese con nosotros llamando al
++54 11 5252 – 8980. En cumplimiento del art. 27 inc. 3 de la ley 25.326 (protección de datos personales) y del anexo I, art. 27, párrafo tercero del decreto 1558/2001, le informamos que, si deseara no recibir más información publicitaria, tiene el derecho de solicitar el retiro o bloqueo total o parcial de su nombre en nuestras bases de datos llamando al +54 11 5252 – 8980 o enviando un mail a info@davalores.com.ar. Si usted no es cliente, solo deberá enviar un mail a la dirección mencionada. Ley N° 26.831 (Título VII- Cap. II. Art. 12°): DA VALORES S.A. Es una sociedad anónima constituida bajo las leyes de la república argentina. CUIT N° 30-71618100-2, Ortiz de Ocampo 3220 piso 1°, CABA, Argentina. Términos de seguridad y privacidad de la política de uso de hipervínculos © Copyright. DA VALORES S.A. 2024. Todos los derechos reservados. Ninguna parte de esta publicación puede ser reproducida, almacenada en un sistema de recuperación, o transmitida, en cualquier forma o por cualquier medio, electrónico, mecánico, fotocopia, grabación, o de otro modo, sin la autorización previa y por escrito de DA VALORES S.A. DA VALORES S.A. – Agente De Liquidación Y Compensación Y Agente De Negociación Integral (ALYC Y AN I) registrado bajo el N°974 ante la Comisión Nacional De Valores (CNV).”</p>
   <div class="sello">
     <span>DA Valores S.A. — Research</span>
-    <span>Generado el 31/07/2026 14:24</span>
+    <span>Generado el 31/07/2026 14:51</span>
   </div>
 </div>
 
@@ -1223,11 +1996,14 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
   });
 
   // ---- Pestanas ----
+  var HASHES = ["financiero", "on", "soberanos"];
   var tabs = [
     {b: document.getElementById("tab-fin"), p: document.getElementById("panel-fin"),
      d: document.getElementById("disclaimer-fin")},
     {b: document.getElementById("tab-on"), p: document.getElementById("panel-on"),
-     d: document.getElementById("disclaimer-on")}
+     d: document.getElementById("disclaimer-on")},
+    {b: document.getElementById("tab-sob"), p: document.getElementById("panel-sob"),
+     d: document.getElementById("disclaimer-sob")}
   ];
   var etiquetaFecha = document.getElementById("fecha-panel");
   function activar(i, empujar){
@@ -1239,13 +2015,13 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
     });
     etiquetaFecha.innerHTML = "Datos al <b>" + (tabs[i].p.dataset.fecha || "") + "</b>";
     if(empujar){
-      history.replaceState(null, "", i === 1 ? "#on" : "#financiero");
+      history.replaceState(null, "", "#" + HASHES[i]);
     }
   }
   tabs.forEach(function(t, i){
     t.b.addEventListener("click", function(){ activar(i, true); });
   });
-  activar(location.hash === "#on" ? 1 : 0, false);
+  activar(Math.max(0, HASHES.indexOf(location.hash.replace("#", ""))), false);
 
   // ---- Tooltip de los graficos ----
   var tt = document.getElementById("tooltip");
