@@ -156,14 +156,20 @@ html,body{margin:0;padding:0;background:var(--fondo)}
 
 .tarjeta{background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
   box-shadow:var(--sombra);overflow:hidden}
+/* Altura de cabecera fija: antes las tarjetas con numero destacado (ej. Merval
+   en CCL, Riesgo Pais) quedaban 8px mas altas que el resto -- el 19px del
+   destacado empuja mas la caja de linea que el h2 de 13.5px con align-items:
+   baseline. Con line-height igual en los dos la caja de linea mide lo mismo
+   tenga o no destacado, y todas las cabeceras de la columna calzan parejo. */
 .tarjeta-cab{background:var(--navy);color:#fff;padding:9px 14px;display:flex;
   align-items:baseline;gap:12px}
 @media (prefers-color-scheme: dark){.tarjeta-cab{background:#1B3450}}
 :root[data-theme="dark"] .tarjeta-cab{background:#1B3450}
 :root[data-theme="light"] .tarjeta-cab{background:#12375F}
-.tarjeta-cab h2{margin:0;font-size:13.5px;font-weight:600;letter-spacing:.01em;color:#fff}
+.tarjeta-cab h2{margin:0;font-size:13.5px;font-weight:600;letter-spacing:.01em;
+  color:#fff;line-height:18px}
 .destacado{margin-left:auto;font-size:19px;font-weight:600;color:#fff;
-  font-variant-numeric:proportional-nums;white-space:nowrap}
+  font-variant-numeric:proportional-nums;white-space:nowrap;line-height:18px}
 
 /* Las columnas de valores se encogen a lo que miden (width:1px + nowrap las lleva
    al minimo) y la etiqueta se queda con todo el resto. Antes la etiqueta tenia un
@@ -1962,7 +1968,7 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
   <p class="disclaimer" id="disclaimer-sob"></p>
   <div class="sello">
     <span>DA Valores S.A. — Research</span>
-    <span>Generado el 03/08/2026 11:50</span>
+    <span>Generado el 03/08/2026 11:55</span>
   </div>
 </div>
 
