@@ -2,11 +2,11 @@
   "titulo": "Bonos Soberanos",
   "fecha": "07/08/2026",
   "modo": "vivo",
-  "hora_dato": "07/08/2026 16:37:48",
-  "hora_lectura": "07/08/2026 16:37:48",
-  "detalle_fuente": "leido de la sesion abierta, pero de OTRA copia: C:\\Users\\gino.pennacchioni\\AppData\\Roaming\\Microsoft\\Excel\\Calculadoras Títulos ARG (version 1).xlsb",
-  "archivo_leido": "C:\\Users\\gino.pennacchioni\\AppData\\Roaming\\Microsoft\\Excel\\Calculadoras Títulos ARG (version 1).xlsb",
-  "fuente_canonica": false,
+  "hora_dato": "07/08/2026 17:37:35",
+  "hora_lectura": "07/08/2026 17:37:35",
+  "detalle_fuente": "leido de la sesion de Excel abierta",
+  "archivo_leido": "\\\\srv-da-fileserver\\Fileserver\\Trading\\Gino Pennacchioni\\Calculadoras\\Calculadoras Títulos ARG.xlsx",
+  "fuente_canonica": true,
   "bloques": [
     {
       "clave": "tasa_fija",
