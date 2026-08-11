@@ -2113,7 +2113,7 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
 +54 11 5252 – 8980. En cumplimiento del art. 27 inc. 3 de la ley 25.326 (protección de datos personales) y del anexo I, art. 27, párrafo tercero del decreto 1558/2001, le informamos que, si deseara no recibir más información publicitaria, tiene el derecho de solicitar el retiro o bloqueo total o parcial de su nombre en nuestras bases de datos llamando al +54 11 5252 – 8980 o enviando un mail a info@davalores.com.ar. Si usted no es cliente, solo deberá enviar un mail a la dirección mencionada. Ley N° 26.831 (Título VII- Cap. II. Art. 12°): DA VALORES S.A. Es una sociedad anónima constituida bajo las leyes de la república argentina. CUIT N° 30-71618100-2, Ortiz de Ocampo 3220 piso 1°, CABA, Argentina. Términos de seguridad y privacidad de la política de uso de hipervínculos © Copyright. DA VALORES S.A. 2024. Todos los derechos reservados. Ninguna parte de esta publicación puede ser reproducida, almacenada en un sistema de recuperación, o transmitida, en cualquier forma o por cualquier medio, electrónico, mecánico, fotocopia, grabación, o de otro modo, sin la autorización previa y por escrito de DA VALORES S.A. DA VALORES S.A. – Agente De Liquidación Y Compensación Y Agente De Negociación Integral (ALYC Y AN I) registrado bajo el N°974 ante la Comisión Nacional De Valores (CNV).”</p>
   <div class="sello">
     <span>DA Valores S.A. — Research</span>
-    <span>Generado el 11/08/2026 16:38</span>
+    <span>Generado el 11/08/2026 16:47</span>
   </div>
 </div>
 
@@ -2196,47 +2196,6 @@ svg.grafico .hit:hover + .punto,svg.grafico .hit:focus + .punto{r:7}
   });
   window.addEventListener("scroll", ocultar, {passive:true});
 
-  // ---- Refresco en vivo de la pestana de Soberanos ----
-  // Solo se recambia el panel de Soberanos: las otras dos pestañas se generan
-  // aparte (por ahora cada 15 min) y no hace falta tocarlas. El tooltip de los
-  // graficos sigue funcionando porque escucha en document, no en cada punto.
-  //
-  // FUENTE_VIVO: "" cuando esto lo sirve el agente local (mismo origen que
-  // /soberanos.html), o la URL del Worker de Cloudflare cuando esto es la
-  // pagina PUBLICADA. En ese segundo caso el fetch es cross-origin -- el
-  // Worker ya responde con Access-Control-Allow-Origin: *.
-  //
-  // DEGRADACION: si el fetch falla (el agente de Gino esta apagado, o el
-  // Worker todavia no recibio ningun snapshot), el catch solo deja un aviso en
-  // consola y el panel se queda con lo que ya se publico -- con su fecha real,
-  // nunca una pagina rota ni un hueco en blanco.
-  var CADA_VIVO = 60 * 1000;
-  var BASE_VIVA = "https://dashboard.davalores.workers.dev";
-  var panelSob = document.getElementById("panel-sob");
-  var fechaSob = null;
-  function refrescarVivo(){
-    fetch(BASE_VIVA + "/soberanos.html?v=" + Date.now(), {cache: "no-store"})
-      .then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
-      .then(function(html){
-        panelSob.innerHTML = html;
-        return fetch(BASE_VIVA + "/soberanos.json?v=" + Date.now(), {cache: "no-store"});
-      })
-      .then(function(r){ return r.json(); })
-      .then(function(d){
-        // La fecha del encabezado se toma del panel activo, asi que hay que
-        // mantener el data-fecha al dia o quedaria clavado en el del arranque.
-        panelSob.dataset.fecha = d.fecha;
-        if(d.fecha !== fechaSob){
-          fechaSob = d.fecha;
-          var sel = document.getElementById("tab-sob")
-                            .getAttribute("aria-selected") === "true";
-          if(sel){ etiquetaFecha.innerHTML = "Datos al <b>" + d.fecha + "</b>"; }
-        }
-      })
-      .catch(function(e){ console.warn("refresco en vivo:", e); });
-  }
-  refrescarVivo();
-  setInterval(refrescarVivo, CADA_VIVO);
 })();
 </script>
 </body>
