@@ -3,3 +3,7 @@ Thumbs.db
 # Variante sin <html>/<head>/<body>, solo para hostings que envuelven el
 # contenido. En GitHub Pages no hace falta: se publica index.html.
 fragmento.html
+
+# Salida del agente en vivo (desactivado): trae la ruta interna del fileserver
+soberanos_vivo.json
+soberanos_vivo.html
